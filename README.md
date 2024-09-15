@@ -18,7 +18,7 @@ Dự án này là một website và ứng dụng quản lý dành riêng để b
 - **Giỏ Hàng & Thanh Toán**: Cung cấp trải nghiệm mua sắm mượt mà với giỏ hàng và quy trình thanh toán đơn giản và an toàn. Hỗ trợ nhiều phương thức thanh toán.
 - **Theo Dõi Đơn Hàng**: Người dùng có thể theo dõi trạng thái đơn hàng của mình từ khi đặt hàng đến khi giao hàng, với cập nhật liên tục về tình trạng đơn hàng.
 - **Thiết Kế Responsive**: Tối ưu hóa giao diện cho các thiết bị di động để đảm bảo trải nghiệm người dùng liền mạch trên mọi thiết bị, bao gồm điện thoại và máy tính bảng.
-- **Tích hợp AI ChatBot**: AI hỗ trợ tư vấn khách hàng mua sản phẩm.
+- **Tích hợp AI Tìm Kiếm Thông Minh**: Cải thiện khả năng tìm kiếm của trang web với gợi ý tự động, nhận dạng lỗi chính tả, và hiểu ngữ nghĩa.
 
 
 ## Tính Năng Trang Quản Trị (Desktop)
