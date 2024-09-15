@@ -1,8 +1,8 @@
-# Website và ứng dụng quản lý văn phòng phẩm
+# Hệ thống quản lý văn phòng phẩm
 
 ## Tóm Tắt Dự Án
 
-Dự án này là một website và ứng dụng quản lý dành riêng để bán và quản lý các sản phẩm văn phòng phẩm. Bao gồm các mặt hàng như bút, giấy, kẹp giấy, hồ dán, và các dụng cụ văn phòng khác. Mục tiêu của dự án là cung cấp cho các tổ chức và cá nhân một nền tảng dễ dàng để theo dõi và quản lý nhu cầu văn phòng phẩm của họ. 
+Dự án này tập trung phát triển hệ thống quản lý văn phòng phẩm, nhằm hỗ trợ việc bán và theo dõi các sản phẩm văn phòng phẩm như bút, giấy, kẹp giấy, hồ dán, và các dụng cụ văn phòng khác. Phần mềm sẽ cung cấp một giao diện thân thiện và trực quan, giúp người dùng dễ dàng quản lý nhu cầu văn phòng phẩm của mình. Mục tiêu là tối ưu hóa quy trình mua sắm, quản lý tồn kho, và đảm bảo cung cấp đủ sản phẩm cần thiết cho cá nhân và tổ chức, từ đó nâng cao hiệu suất làm việc và giảm thiểu lãng phí.
 
 ## Thành Viên
 | STT               | Họ tên              | Chức vụ                     | Email|
@@ -27,6 +27,7 @@ Dự án này là một website và ứng dụng quản lý dành riêng để b
 - **Quản Lý Danh Mục**: Tạo và chỉnh sửa danh mục sản phẩm để tổ chức hàng hóa một cách hợp lý.
 - **Quản Lý Đơn Hàng**: Xem và cập nhật trạng thái đơn hàng.
 - **Quản Lý Khách Hàng**: Theo dõi thông tin khách hàng, bao gồm danh sách khách hàng, lịch sử mua hàng.
+- **Quản Lý Nhập Hàng**: Tạo phiếu nhập, nhập thông tin sản phẩm và theo dõi trạng thái nhập hàng.
 
 ## Phân Công Chi Tiết
 
@@ -42,16 +43,15 @@ Dự án này là một website và ứng dụng quản lý dành riêng để b
 | Quản Lý Sản Phẩm         | Nguyễn Từ Thành Đạt  | Thêm, sửa, xóa sản phẩm, cập nhật thông tin sản phẩm |
 | Quản Lý Danh Mục        | Dương Thuận Quang    | Tạo và chỉnh sửa danh mục, quản lý cấu trúc danh mục |
 | Quản Lý Đơn Hàng         | Nguyễn Từ Thành Đạt  | Quản lý trạng thái đơn hàng |
-| Quản Lý Khách Hàng       | Dương Thuận Quang    | Theo dõi thông tin khách hàng, quản lý lịch sử mua hàng |
+| Quản Lý Nhập Hàng       | Dương Thuận Quang    | Tạo phiếu nhập, nhập thông tin sản phẩm và theo dõi trạng thái nhập hàng |
+| Quản Lý Khách Hàng       | Nguyễn Từ Thành Đạt    | Theo dõi thông tin khách hàng, quản lý lịch sử mua hàng |
 
 ## Công Nghệ Sử Dụng
 
 - **Ngôn Ngữ**: C#
 - **Frameworks**: ASP.NET MVC
 - **Cơ Sở Dữ Liệu**: MS SQL Server
-- **Tạo Giao Diện Người Dùng**: HTML/CSS, Bootstrap, Windows Forms
-- **Tương Tác Người Dùng**: JavaScript, jQuery
-- **IDE**: Visual Studio
+- **Các Công Nghệ Khác**: HTML/CSS, Bootstrap, JavaScript, jQuery, Windows Forms
 
 ## Cài Đặt
 
