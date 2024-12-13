@@ -1,0 +1,109 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<VanPhongPham.Models.product>
+@{
+    ViewBag.Title = "Sản phẩm - Quản Trị";
+    var message = ViewBag.Message;
+    var messageType = ViewBag.MessageType;
+}
+@if (message != null)
+{
+    <div class="alert alert-dark-@messageType alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        @message
+    </div>
+}
+<h4 class="font-weight-bold py-3 mb-0">Danh sách sản phẩm</h4>
+<div class="row">
+    <div class="navbar-nav my-3 ml-2">
+        <!-- Search -->
+        <form class="nav-item navbar-text navbar-search-box p-0 active" action="@Url.Action("Index", "Product")" method="get">
+            <span class="navbar-search-input">
+                <input type="text" class="form-control navbar-text mx-2" name="search_str" placeholder="Tìm kiếm..." value="@(ViewBag.search_str ?? "")">
+            </span>
+            <button class="btn icon-btn btn-outline-primary" title="Tìm kiếm">
+                <i class="feather icon-search navbar-icon align-middle"></i>
+            </button>
+        </form>
+    </div>
+    <!-- Add -->
+    <a class="btn icon-btn btn-outline-success my-3 ml-2" href="@Url.Action("AddProduct","Product")" title="Thêm">
+        <i class="feather icon-plus navbar-icon align-middle"></i>
+    </a>
+    <!-- Recycle -->
+    <a class="btn icon-btn btn-outline-secondary my-3 ml-2" href="@Url.Action("RecycleProductIndex","Product")" title="Phục hồi">
+        <i class="feather icon-rotate-cw navbar-icon align-middle"></i>
+    </a>
+    <!-- Export to Excel -->
+    <a class="btn icon-btn btn-outline-success my-3 ml-2" href="@Url.Action("ProductExportToExcel","Product")" title="Xuất excel">
+        <i class="feather icon-printer navbar-icon align-middle"></i>
+    </a>
+</div>
+<div class="card">
+    <table class="table card-table table-responsive-lg">
+        <thead class="thead-light">
+            <tr>
+                <th>Mã sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá nhập</th>
+                <th>Giá bán</th>
+                <th>Số lượng tồn</th>
+                <th>Danh mục</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.product_id</td>
+                    @foreach (var image in ViewBag.mainImages)
+                    {
+                        if (image.product.product_id == product.product_id)
+                        {
+                            <td>
+                                <img src="@image.image_url" alt="Ảnh sản phẩm" style="width: 50px; height: auto;">
+                            </td>
+                        }
+                    }
+                    <td>@product.product_name</td>
+                    <td>@product.purchase_price</td>
+                    <td>
+                        @if (product.promotion_price != null && product.promotion_price != 0)
+                        {
+                            <span style="text-decoration: line-through; color: grey;">@product.price</span><br />
+                            <span>@product.promotion_price</span>
+                        }
+                        else
+                        {
+                            <span>@product.price</span><br />
+                        }
+                    </td>
+                    <td>@product.stock_quantity</td>
+                    <td>
+                        <a href="@Url.Action("Index", "Product", new { category_name = product.category.category_name })">@product.category.category_name</a>
+                    </td>
+                    <td>
+                        <a class="btn icon-btn btn-outline-danger"
+                           href="#"
+                           title="Xóa"
+                           onclick="confirmDelete('@Url.Action("DeleteProduct", "Product", new { product_id = product.product_id })'); return false;">
+                            <i class="feather icon-minus navbar-icon align-middle"></i>
+                        </a>
+                        <a class="btn icon-btn btn-outline-info ml-2"
+                           title="Sửa"
+                           href="@Url.Action("UpdateProduct", "Product", new { product_id = product.product_id })">
+                            <i class="feather icon-edit navbar-icon align-middle"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center">
+        <div class="pagination-container">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, category_name = ViewBag.category_name, search_str = ViewBag.search_str }))
+        </div>
+    </div>
+</div>

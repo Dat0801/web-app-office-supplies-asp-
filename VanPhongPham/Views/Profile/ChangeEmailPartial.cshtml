@@ -1,0 +1,161 @@
+﻿@model VanPhongPham.Models.user
+
+@{ 
+    var profileUrl = Url.Action("Index", "Profile"); 
+}
+
+<p style="font-size: 20px; font-weight: bold;">Thay Đổi Địa Chỉ Email</p>
+<hr />
+
+<div class="row">
+    <div class="alert alert-success" id="emailVerificationMessage" style="display: none;">
+    </div>
+    <div class="col-md-6">
+        <div class="form-group row mb-3">
+            <label class="col-sm-4 col-form-label">Địa chỉ email mới</label>
+            <div class="col-sm-8">
+                <input type="email" class="form-control" name="changeemail" id="changeemail" />
+                <div class="invalid-feedback">Vui lòng nhập địa chỉ email hợp lệ.</div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-8 offset-sm-4">
+                <button type="button" id="submitBtn" class="btn btn-danger">Tiếp Theo</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal nhập mật khẩu -->
+<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="passwordModalLabel">Nhập Mật Khẩu</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="passwordInput">Mật Khẩu</label>
+                    <input type="password" class="form-control" id="passwordInput" />
+                    <div class="invalid-feedback">Mật khẩu không đúng.</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirmPasswordBtn" class="btn btn-primary">Xác Nhận</button>
+                <button type="button" id="cancelAddressBtn" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyC7PsMUUTQancVCjMl0NnbDVDl0tpWdZDY",
+        authDomain: "ecommercevpp.firebaseapp.com",
+        projectId: "ecommercevpp",
+        storageBucket: "ecommercevpp.appspot.com",
+        messagingSenderId: "867737625124",
+        appId: "1:867737625124:web:b7df5e4e371340b3ce2eb1"
+    };
+
+    // Khởi tạo Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    document.getElementById("cancelAddressBtn").addEventListener("click", function () {
+        $('#passwordModal').modal('hide');
+    });
+
+    const userData = JSON.parse(sessionStorage.getItem('user'));
+    const url = `${"@profileUrl"}?MaTaiKhoan=${userData.MaTaiKhoan}&view=EmailStepTwoPartial`;
+
+    const actionCodeSettings = {
+        url,
+        handleCodeInApp: true
+    };
+
+    document.getElementById('submitBtn').addEventListener('click', async function () {
+        let isValid = true;
+
+        const changeemail = document.getElementById('changeemail');
+        const emailFeedback = changeemail.parentElement.querySelector('.invalid-feedback');
+
+        // Kiểm tra địa chỉ email mới
+        if (changeemail.value.trim() === "") {
+            isValid = false;
+            changeemail.classList.add("is-invalid");
+            emailFeedback.innerText = "Vui lòng nhập địa chỉ email hợp lệ.";
+            emailFeedback.style.display = 'block';
+        } else {
+            changeemail.classList.remove("is-invalid");
+            emailFeedback.style.display = 'none';
+        }
+
+        if (isValid) {
+            const checkemail = await checkEmailExists(changeemail.value.trim());
+
+            if (checkemail) {
+                changeemail.classList.add("is-invalid");
+                emailFeedback.innerText = "Email đã được đăng ký.";
+                emailFeedback.style.display = 'block';
+            } else {
+                // Hiện modal để nhập mật khẩu
+                $('#passwordModal').modal('show');
+                let wrongPasswordAttempts = 0;
+
+                document.getElementById('confirmPasswordBtn').addEventListener('click', async function () {
+                    const passwordInput = document.getElementById('passwordInput');
+                    const password = passwordInput.value.trim();
+
+                    // Kiểm tra mật khẩu
+                    const userCredential = await firebase.auth().signInWithEmailAndPassword('@Model.email', password)
+                        .catch(function (error) {
+                            passwordInput.classList.add("is-invalid");
+                            passwordInput.parentElement.querySelector('.invalid-feedback').innerText = "Mật khẩu không đúng.";
+                            passwordInput.parentElement.querySelector('.invalid-feedback').style.display = 'block';
+                            return null; // Trả về null nếu đăng nhập không thành công
+                        });
+
+                    if (userCredential)
+                    {
+                        const result = await updateNewEmail(changeemail.value.trim(), password);
+                        if (result) {
+                            alert("Vui lòng kiểm tra email mới của bạn để hoàn tất quá trình xác thực.");
+                            $('#passwordModal').modal('hide');
+                        }
+                    }
+                    else {
+                        wrongPasswordAttempts++;
+                        if (wrongPasswordAttempts >= 3) {
+                            alert("Bạn đã nhập sai mật khẩu quá 3 lần. Bạn sẽ bị đăng xuất.");
+                            logout();
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    async function updateNewEmail(newEmail, currentPassword) {
+        try {
+            const user = firebase.auth().currentUser;
+
+            // Xác thực người dùng bằng mật khẩu hiện tại
+            const credential = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
+            await user.reauthenticateWithCredential(credential);
+
+            // Gửi email xác thực để cập nhật email
+            await user.verifyBeforeUpdateEmail(newEmail, actionCodeSettings);
+            alert("Vui lòng kiểm tra email mới để hoàn tất quá trình xác thực.");
+            return true;
+        } catch (error) {
+            console.error("Lỗi khi cập nhật email:", error.message);
+            // Xử lý lỗi tương tự như trước
+            return false;
+        }
+    }
+</script>
+

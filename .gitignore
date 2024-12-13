@@ -1,0 +1,12 @@
+# Ignore Visual Studio files
+.vs/
+VanPhongPham/bin/
+VanPhongPham/obj/
+/VanPhongPham/.vs
+/VanPhongPham/bin
+/VanPhongPham/obj
+/.vs
+VanPhongPham/App_Data/firebase-config.json
+VanPhongPham/Models/DB_VanPhongPham.dbml
+VanPhongPham/Models/DB_VanPhongPham.dbml.layout
+VanPhongPham/Models/DB_VanPhongPham.designer.cs

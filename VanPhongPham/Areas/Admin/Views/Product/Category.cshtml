@@ -1,0 +1,94 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<VanPhongPham.Models.category>
+@{
+    ViewBag.Title = "Danh mục sản phẩm - Quản Trị";
+    var message = ViewBag.Message;
+    var messageType = ViewBag.MessageType;
+}
+@if (message != null)
+{
+    <div class="alert alert-dark-@messageType alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        @message
+    </div>
+}
+<div class="card mb-4">
+    <h6 class="card-header">Thêm mới danh mục</h6>
+    <div class="card-body">
+        <form method="post" action="@Url.Action("AddCategory", "Product")">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="supplier_name">Mã danh mục</label>
+                    <input type="text" class="form-control" id="supplier_id" name="category_id" readonly
+                           value="@(ViewBag.category != null ? ViewBag.category.category_id : ViewBag.category_id ?? "")" />
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="supplier_name">Tên danh mục</label>
+                    <input type="text" class="form-control" id="supplier_name" name="category_name" required
+                           value="@(ViewBag.category != null ? ViewBag.category.category_name : "")" />
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <button type="submit" name="action" value="add" class="btn btn-primary">Thêm</button>
+            <button type="submit" name="action" value="edit" class="btn btn-primary">Sửa</button>
+        </form>
+    </div>
+</div>
+<h4 class="font-weight-bold mb-0">Danh sách danh mục</h4>
+<div class="row">
+    <div class="navbar-nav my-3 ml-2">
+        <!-- Search -->
+        <form class="nav-item navbar-text navbar-search-box p-0 active" action="@Url.Action("Category", "Product")" method="get">
+            <span class="navbar-search-input">
+                <input type="text" class="form-control navbar-text mx-2" name="search_str" placeholder="Tìm kiếm..." value="@(ViewBag.search_str ?? "")">
+            </span>
+            <button class="btn icon-btn btn-outline-primary">
+                <i class="feather icon-search navbar-icon align-middle"></i>
+            </button>
+        </form>
+    </div>
+    <!-- Recycle -->
+    <a class="btn icon-btn btn-outline-secondary my-3 ml-2" href="@Url.Action("RecycleCategoryIndex","Product")" title="Phục hồi">
+        <i class="feather icon-rotate-cw navbar-icon align-middle"></i>
+    </a>
+</div>
+<div class="card">
+    <table class="table card-table table-responsive-lg">
+        <thead class="thead-light">
+            <tr>
+                <th>Mã danh mục</th>
+                <th>Tên danh mục</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.category_id</td>
+                    <td>@category.category_name</td>
+                    <td>
+                        <a class="btn icon-btn btn-outline-danger"
+                           href="#"
+                           title="Xóa"
+                           onclick="confirmDelete('@Url.Action("DeleteCategory", "Product", new { category_id = category.category_id })'); return false;">
+                            <i class="feather icon-minus navbar-icon align-middle"></i>
+                        </a>
+                        <a class="btn icon-btn btn-outline-info ml-2"
+                           title="Sửa"
+                           href="@Url.Action("Category", "Product", new { category_id = category.category_id })">
+                            <i class="feather icon-edit navbar-icon align-middle"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center">
+        <div class="pagination-container">
+            @Html.PagedListPager(Model, page => Url.Action("Category", new { page }))
+        </div>
+    </div>
+</div>

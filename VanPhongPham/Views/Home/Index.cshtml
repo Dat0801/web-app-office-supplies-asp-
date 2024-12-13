@@ -1,0 +1,265 @@
+﻿
+@{
+    ViewBag.Title = "QVD";
+}
+@model VanPhongPham.Models.ViewModels
+<div class="container-fluid pt-5">
+    <div class="row border-top px-xl-5">
+        <div class="col-lg-12">
+            <div id="header-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" style="height: 410px;">
+                        <img class="img-fluid" src="~/Public/img/carousel-1.jpg" alt="Image">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div class="p-3" style="max-width: 700px;">
+                                <h4 class="text-light text-uppercase font-weight-medium mb-3">Giảm 10% cho đơn hàng đầu tiên</h4>
+                                <a href="@Url.Action("GetAllProducts","ProductClient")" class="btn btn-light py-2 px-3">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item" style="height: 410px;">
+                        <img class="img-fluid" src="~/Public/img/carousel-2.jpg" alt="Image">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div class="p-3" style="max-width: 700px;">
+                                <h4 class="text-light text-uppercase font-weight-medium mb-3">Giảm 10% cho đơn hàng đầu tiên</h4>
+                                <a href="@Url.Action("GetAllProducts","ProductClient")" class="btn btn-light py-2 px-3">Mua ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                        <span class="carousel-control-prev-icon mb-n2"></span>
+                    </div>
+                </a>
+                <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                        <span class="carousel-control-next-icon mb-n2"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Navbar End -->
+<!-- Categories End -->
+<!-- Offer Start -->
+<div class="container-fluid offer pt-5">
+    <div class="row px-xl-5">
+        <div class="col-md-6 pb-4">
+            <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
+                <div class="position-relative" style="z-index: 1;">
+                    <h5 class="text-uppercase text-primary mb-3">Giảm giá 20% tất cả đơn hàng</h5>
+                    <h1 class="mb-4 font-weight-semi-bold">Bút Bi</h1>
+                    <a href="@Url.Action("GetAllProducts", "ProductClient", new { categoryId = "CAT001" })" class="btn btn-outline-primary py-md-2 px-md-3">Mua Ngay</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 pb-4">
+            <div class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
+                <div class="position-relative" style="z-index: 1;">
+                    <h5 class="text-uppercase text-primary mb-3">Giảm giá 20% tất cả đơn hàng</h5>
+                    <h1 class="mb-4 font-weight-semi-bold">Bút Chì</h1>
+                    <a href="@Url.Action("GetAllProducts", "ProductClient", new { categoryId = "CAT002" })" class="btn btn-outline-primary py-md-2 px-md-3">Mua Ngay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Offer End -->
+<!-- Products Start -->
+<div class="container-fluid pt-5">
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2">Sản Phẩm Bán Chạy</span></h2>
+    </div>
+    <div class="row px-xl-5 pb-3">
+        @foreach (var product in Model.ProductViewModel)
+        {
+            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                <div class="card product-item border-0 mb-4">
+                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                        @{var primaryImage = product.Images.FirstOrDefault(image => image.IsPrimary);
+                            if (primaryImage != null)
+                            {
+                                <img class="img-fluid w-100" src="@primaryImage.ImageUrl" alt="@primaryImage.Description">
+                            }
+                        }
+                    </div>
+                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                        <h6 class="text-truncate mb-3">@product.ProductName</h6>
+                        <div class="d-flex justify-content-center">
+                            @if (product.StockQuantity == 0)
+                            {
+                                <div class="text-danger">
+                                    <span>Hết hàng</span>
+                                    <br />
+                                    <span>Liên hệ để biết thêm chi tiết</span>
+                                </div>
+                            }
+                            else
+                            {
+                                var activePromotions = Model.PromotionViewModel
+                                    .Where(p => p.StartDate.Date <= DateTime.Now.Date && p.EndDate.Date >= DateTime.Now.Date)
+                                    .ToList();
+
+
+
+                                if (product.PromotionPrice < product.Price)
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <span style="font-weight: normal; color: #ff4747; font-size: 16px;">₫@string.Format("{0:N0}", product.PromotionPrice)</span>
+                                        <del style="font-weight: normal; font-size: 14px; margin-left: 5px; color: #777777">₫@string.Format("{0:N0}", product.Price)</del>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span style="font-weight: normal; color: #ff4747; font-size: 16px;">₫@string.Format("{0:N0}", product.Price)</span>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between bg-light border">
+                        <a href="@Url.Action("Details", "ProductClient", new { id = product.ProductId })" class="btn btn-sm text-dark p-0">
+                            <i class="fas fa-eye text-primary mr-1"></i>Xem Chi Tiết
+                        </a>                        
+                        @if (product.StockQuantity > 0) 
+                        {
+                            <a href="#" class="btn btn-sm text-dark p-0 addToCartLink" data-product-id="@product.ProductId">
+                                <i class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ Hàng
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+    <center><a href="@Url.Action("GetAllProducts","ProductClient")" class="btn btn-danger">Xem tất cả</a></center>
+</div>
+<!-- Products End -->
+<!-- Subscribe Start -->
+<div class="container-fluid bg-secondary my-5">
+    <div class="row justify-content-md-center py-5 px-xl-5">
+        <div class="col-md-6 col-12 py-5">
+            <div class="text-center mb-2 pb-2">
+                <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Nhận Thông Báo</span></h2>
+                <p>Khi có các sản phẩm mới thông tin sẽ được gửi đến những khách hàng đã đăng ký.</p>
+            </div>
+            <form action="">
+                <div class="input-group">
+                    <input type="text" class="form-control border-white p-4" placeholder="Email">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary px-4">Đăng Ký</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Subscribe End -->
+<!-- Vendor Start -->
+<div class="container-fluid py-5">
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="owl-carousel vendor-carousel">
+                <div class="vendor-item border p-4">
+                    <img src="~/Public/img/vendor-1.jpg" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="~/Public/img/vendor-2.jpg" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="~/Public/img/vendor-3.jpg" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="~/Public/img/vendor-4.jpg" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="~/Public/img/vendor-5.jpg" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="~/Public/img/vendor-6.jpg" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="~/Public/img/vendor-7.jpg" alt="">
+                </div>
+                <div class="vendor-item border p-4">
+                    <img src="~/Public/img/vendor-8.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {        
+        var addToCartLinks = document.getElementsByClassName("addToCartLink");
+
+        
+        for (var i = 0; i < addToCartLinks.length; i++) {
+            var addToCartLink = addToCartLinks[i];
+
+            // Thêm sự kiện click cho từng link
+            addToCartLink.addEventListener('click', function (event) {
+                event.preventDefault(); // Ngăn hành động mặc định
+
+                // Lấy thông tin sản phẩm
+                var productId = this.getAttribute("data-product-id");
+                var user = sessionStorage.getItem("user");
+                var cartId = user ? JSON.parse(user).CartID : null;
+                var quantity = 1; // Số lượng mặc định
+
+                if (cartId === null) {
+                    window.location.href = "/Auth/Login";
+                    return;
+                }
+
+                // Gửi AJAX đến Controller
+                fetch('/Cart/AddToCart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value // CSRF Token
+                    },
+                    body: JSON.stringify({ cart_id: cartId, productId: productId, quantity: quantity })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showNotification(data.message, "success"); // Hiển thị thông báo thành công
+                            displayUserName();
+                        } else {
+                            showNotification(data.message, "danger"); // Hiển thị thông báo lỗi
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        showNotification("Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.", "danger");
+                    });
+
+            });
+        }
+
+        // Hàm hiển thị thông báo
+        function showNotification(message, messageType) {
+            // Tạo phần tử HTML cho thông báo
+            var notificationContainer = document.getElementById("notification-container");
+            var notification = document.createElement("div");
+            notification.className = `alert alert-dark-${messageType} alert-dismissible fade show`;
+            notification.innerHTML = `
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            ${message}
+        `;
+
+            // Thêm thông báo vào container
+            notificationContainer.appendChild(notification);
+
+            // Tự động xóa thông báo sau 2 giây
+            setTimeout(function () {
+                notification.remove();
+            }, 3000);
+        }
+    });
+
+</script>
+
