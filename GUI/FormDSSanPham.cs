@@ -20,50 +20,47 @@ namespace GUI
             InitializeComponent();
             productBLL = new ProductBLL();
             dataGridViewDSSP.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            BtnThemSP.Click += BtnThemSP_Click;
+        }
+
+        private void BtnThemSP_Click(object sender, EventArgs e)
+        {
+            if(Program.formThemSP == null)
+            {
+                Program.formThemSP = new FormThemSanPham();
+                Program.formThemSP.ShowDialog();
+            } else
+            {
+                Program.formThemSP.ShowDialog();
+            }
         }
 
         private void FormDSSanPham_Load(object sender, EventArgs e)
         {
             this.FormBorderStyle = FormBorderStyle.None;
             this.ShowIcon = false;
-            dataGridViewDSSP.DataSource = productBLL.GetProducts();
+            var products = productBLL.GetProducts();
+            var productWithCategory = from p in products
+                                      select new
+                                      {
+                                          p.product_id,
+                                          p.product_name,
+                                          p.purchase_price,
+                                          p.price,
+                                          p.stock_quantity,
+                                          p.category.category_name
+                                      };
+            dataGridViewDSSP.DataSource = productWithCategory.ToList();
             dataGridViewDSSP.ReadOnly = true;
             dataGridViewDSSP.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             dataGridViewDSSP.AutoResizeRows(DataGridViewAutoSizeRowsMode.AllCells);
             dataGridViewDSSP.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewDSSP.Columns["price_coefficient"].Visible = false;
-            dataGridViewDSSP.Columns["description"].Visible = false;
-            dataGridViewDSSP.Columns["promotion_price"].Visible = false;
-            dataGridViewDSSP.Columns["sold"].Visible = false;
-            dataGridViewDSSP.Columns["avgRating"].Visible = false;
-            dataGridViewDSSP.Columns["visited"].Visible = false;
-            dataGridViewDSSP.Columns["status"].Visible = false;
-            dataGridViewDSSP.Columns["created_at"].Visible = false;
-            dataGridViewDSSP.Columns["updated_at"].Visible = false;
-            dataGridViewDSSP.Columns["category"].Visible = false;
             dataGridViewDSSP.Columns["product_id"].HeaderText = "Mã sản phẩm";
-            dataGridViewDSSP.Columns["category_id"].HeaderText = "Mã danh mục";
+            dataGridViewDSSP.Columns["category_name"].HeaderText = "Danh mục";
             dataGridViewDSSP.Columns["product_name"].HeaderText = "Tên sản phẩm";
             dataGridViewDSSP.Columns["purchase_price"].HeaderText = "Giá nhập";
             dataGridViewDSSP.Columns["price"].HeaderText = "Giá bán";
             dataGridViewDSSP.Columns["stock_quantity"].HeaderText = "Số lượng tồn";
-        }
-
-        private void btnThemSP_Click(object sender, EventArgs e)
-        {
-            if (Program.formThemSP == null || Program.formThemSP.IsDisposed)
-            {
-                Program.formThemSP = new FormThemSanPham();
-                Program.formThemSP.MdiParent = Program.mainForm;
-                Program.formThemSP.WindowState = FormWindowState.Maximized;
-                Program.formThemSP.Width = this.ClientSize.Width + 20;
-                Program.formThemSP.Height = this.ClientSize.Height + 40;
-                Program.formThemSP.Show();
-            }
-            else
-            {
-                Program.formThemSP.BringToFront();
-            }
         }
     }
 }

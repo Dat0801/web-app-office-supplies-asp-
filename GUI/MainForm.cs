@@ -20,6 +20,26 @@ namespace GUI
             InitializeComponent();
             this.IsMdiContainer = true;
             this.FormClosed += MainForm_FormClosed;
+            this.DanhSáchNhàCungCấpToolStripMenuItem.Click += DanhSáchNhàCungCấpToolStripMenuItem_Click;
+        }
+
+        private void DanhSáchNhàCungCấpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Program.formDSNhaCungCap == null || Program.formDSNhaCungCap.IsDisposed)
+            {
+                Program.formDSNhaCungCap = new FormDSNhaCungCap
+                {
+                    MdiParent = this,
+                    WindowState = FormWindowState.Maximized,
+                    Width = this.ClientSize.Width + 20,
+                    Height = this.ClientSize.Height + 40
+                };
+                Program.formDSNhaCungCap.Show();
+            }
+            else
+            {
+                Program.formDSNhaCungCap.BringToFront();
+            }
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -27,22 +47,23 @@ namespace GUI
             Program.loginForm.Show();
         }
 
-        private void thêmSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ThêmSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void danhSáchSảnPhẩmToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void DanhSáchSảnPhẩmToolStripMenuItem1_Click(object sender, EventArgs e)
         {
            
             if (Program.formDSSanPham == null || Program.formDSSanPham.IsDisposed)
             {
-                Program.formDSSanPham = new FormDSSanPham();
-                Program.formDSSanPham.MdiParent = this;
-                Program.formDSSanPham.WindowState = FormWindowState.Maximized;
-                Program.formDSSanPham.Width = this.ClientSize.Width + 20;
-                Program.formDSSanPham.Height = this.ClientSize.Height + 40;
-
+                Program.formDSSanPham = new FormDSSanPham
+                {
+                    MdiParent = this,
+                    WindowState = FormWindowState.Maximized,
+                    Width = this.ClientSize.Width + 20,
+                    Height = this.ClientSize.Height + 40
+                };
                 Program.formDSSanPham.Show();
             }
             else
