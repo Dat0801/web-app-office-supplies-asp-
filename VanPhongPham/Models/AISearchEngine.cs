@@ -26,7 +26,7 @@ namespace VanPhongPham.Models
             var filteredProducts = products
             .Where(p =>
                 Fuzz.PartialRatio(searchQuery.ToLower(), p.ProductName.ToLower()) > 70 || // Tìm trong tên sản phẩm
-                Fuzz.PartialRatio(searchQuery.ToLower(), p.Description.ToLower()) > 70 ||  // Tìm trong mô tả sản phẩm
+                (!string.IsNullOrWhiteSpace(p.Description) && Fuzz.PartialRatio(searchQuery.ToLower(), p.Description.ToLower()) > 70) ||  // Tìm trong mô tả sản phẩm
                 Fuzz.PartialRatio(searchQuery.ToLower(), p.Categories.category_name.ToLower()) > 70 || // Tìm trong tên danh mục
                 p.Attributes.Any(a => Fuzz.PartialRatio(searchQuery.ToLower(), a.AttributeName.ToLower()) > 70) // Tìm trong thuộc tính
             )

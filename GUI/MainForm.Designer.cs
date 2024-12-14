@@ -37,6 +37,8 @@ namespace GUI
             this.ThuộcTínhSảnPhẩmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QuảnLýNhậpHàngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DanhSáchNhàCungCấpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lb_Role = new System.Windows.Forms.Label();
+            this.lb_Name = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,7 +69,7 @@ namespace GUI
             this.DanhMụcSảnPhẩmToolStripMenuItem,
             this.ThuộcTínhSảnPhẩmToolStripMenuItem});
             this.QuảnLýSảnPhẩmToolStripMenuItem.Name = "QuảnLýSảnPhẩmToolStripMenuItem";
-            this.QuảnLýSảnPhẩmToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.QuảnLýSảnPhẩmToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.QuảnLýSảnPhẩmToolStripMenuItem.Text = "Quản lý sản phẩm";
             // 
             // DanhSáchSảnPhẩmToolStripMenuItem1
@@ -103,11 +105,31 @@ namespace GUI
             this.DanhSáchNhàCungCấpToolStripMenuItem.Size = new System.Drawing.Size(252, 26);
             this.DanhSáchNhàCungCấpToolStripMenuItem.Text = "Danh sách nhà cung cấp";
             // 
+            // lb_Role
+            // 
+            this.lb_Role.AutoSize = true;
+            this.lb_Role.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_Role.Location = new System.Drawing.Point(655, 9);
+            this.lb_Role.Name = "lb_Role";
+            this.lb_Role.Size = new System.Drawing.Size(0, 22);
+            this.lb_Role.TabIndex = 1;
+            // 
+            // lb_Name
+            // 
+            this.lb_Name.AutoSize = true;
+            this.lb_Name.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_Name.Location = new System.Drawing.Point(744, 9);
+            this.lb_Name.Name = "lb_Name";
+            this.lb_Name.Size = new System.Drawing.Size(0, 22);
+            this.lb_Name.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lb_Name);
+            this.Controls.Add(this.lb_Role);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
@@ -130,5 +152,7 @@ namespace GUI
         private System.Windows.Forms.ToolStripMenuItem ThuộcTínhSảnPhẩmToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem QuảnLýNhậpHàngToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DanhSáchNhàCungCấpToolStripMenuItem;
+        private System.Windows.Forms.Label lb_Role;
+        private System.Windows.Forms.Label lb_Name;
     }
 }
