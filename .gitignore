@@ -10,10 +10,7 @@ VanPhongPham/App_Data/firebase-config.json
 VanPhongPham/Models/DB_VanPhongPham.dbml
 VanPhongPham/Models/DB_VanPhongPham.dbml.layout
 VanPhongPham/Models/DB_VanPhongPham.designer.cs
-BLL/obj/Debug/BLL.csproj.AssemblyReference.cache
-Controls/obj/Debug/Controls.csproj.AssemblyReference.cache
-Controls/obj/Debug/DesignTimeResolveAssemblyReferences.cache
-DAL/obj/Debug/DAL.csproj.AssemblyReference.cache
-GUI/obj/Debug/DesignTimeResolveAssemblyReferences.cache
-GUI/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
-GUI/obj/Debug/GUI.csproj.AssemblyReference.cache
+BLL/obj/Debug/
+Controls/obj/Debug/
+DAL/obj/Debug/
+GUI/obj/Debug/
