@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -67,6 +68,12 @@
     </Compile>
     <Compile Include="NumbericTextbox.Designer.cs">
       <DependentUpon>NumbericTextbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhoneNumberTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PhoneNumberTextBox.Designer.cs">
+      <DependentUpon>PhoneNumberTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

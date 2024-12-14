@@ -17,9 +17,10 @@ namespace Controls
         private readonly UserBLL userBLL;
         public IButtonControl buttonLogin;
         string tenDangNhap;
+        string role;
 
         public string TenDangNhap { get => tenDangNhap; set => tenDangNhap = value; }
-
+        public string Role { get => role; set => role = value; }
         public LoginControl()
         {
             InitializeComponent();
@@ -54,7 +55,8 @@ namespace Controls
                 MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu");
                 return;
             }
-            tenDangNhap = txtUsername.Text;
+            tenDangNhap = user.full_name;
+            role = user.user_roles.FirstOrDefault().role.role_name;
             if (LoginSuccess != null)
             {
                 LoginSuccess(this, EventArgs.Empty);
