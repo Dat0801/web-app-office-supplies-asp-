@@ -16,6 +16,31 @@ namespace VanPhongPham.Models
             _context = new DB_VanPhongPhamDataContext();
         }
 
+        // Phương thức để lấy dữ liệu tương tác của người dùng với sản phẩm
+        public List<(string UserId, string ProductId, int? ViewCount, int? AddToCartCount, int? PurchaseCount)> GetUserProductInteractions()
+        {
+            var interactions = _context.product_interactions
+                .GroupBy(pi => new { pi.user_id, pi.product_id })
+                .Select(g => new
+                {
+                    UserId = g.Key.user_id,
+                    ProductId = g.Key.product_id,
+                    ViewCount = g.Sum(x => x.view_count),
+                    AddToCartCount = g.Sum(x => x.add_to_cart_count),
+                    PurchaseCount = g.Sum(x => x.purchase_count)
+                })
+                .ToList()
+                .Select(x => (
+                    x.UserId,
+                    x.ProductId,
+                    x.ViewCount,
+                    x.AddToCartCount,
+                    x.PurchaseCount
+                ))
+                .ToList();
+
+            return interactions;
+        }
         public ViewModels GetAllProducts(string priceRange = null, List<string> colors = null, List<string> brands = null/*, string searchQuery = null*/)
         {
             var currentDate = DateTime.Now;

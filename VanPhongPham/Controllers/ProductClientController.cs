@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Firebase.Auth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,8 +16,12 @@ namespace VanPhongPham.Controllers
         public ProductClientController()
         {
             _productRepository = new ProductRepository();
+            //var rawData = _productRepository.GetUserProductInteractions(); // Lấy dữ liệu tương tác của người dùng
+            //var products = _productRepository.GetAllProducts().ProductViewModel;
+
+            //aiSearchEngine = new AISearchEngine(rawData, products); // Khởi tạo AISearchEngine với dữ liệu huấn luyện
             aiSearchEngine = new AISearchEngine();
-        }
+        }    
         public ActionResult Index()
         {
             return View();
@@ -31,7 +36,13 @@ namespace VanPhongPham.Controllers
             }
 
             var products = viewModel.ProductViewModel;
-
+            //var userID = Session["userId"] as string;
+            //if (!string.IsNullOrEmpty(userID))
+            //{
+            //    // Khi không có searchStr, gọi hàm gợi ý sản phẩm dựa trên tương tác của người dùng
+            //    ViewBag.products = aiSearchEngine.RecommendProductsForUser(userID, products);
+            //}
+            
             // Filter products by category
             if (!string.IsNullOrWhiteSpace(categoryID))
             {
@@ -95,6 +106,7 @@ namespace VanPhongPham.Controllers
                 // Chuyển searchStr và các mô tả sản phẩm thành vector bằng AI hoặc TF-IDF                
                 products = aiSearchEngine.FindRelevantProducts(searchStr, products);
             }
+            
             // Pagination
             var totalProducts = products.Count();
             products = products.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
