@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,14 +14,15 @@ namespace GUI
     public partial class MainForm : Form
     {
         string tenDangNhap;
+        string role;
         public string TenDangNhap { get => tenDangNhap; set => tenDangNhap = value; }
-
+        public string Role { get => role; set => role = value; }
         public MainForm()
         {
             InitializeComponent();
             this.IsMdiContainer = true;
             this.FormClosed += MainForm_FormClosed;
-            this.DanhSáchNhàCungCấpToolStripMenuItem.Click += DanhSáchNhàCungCấpToolStripMenuItem_Click;
+            this.DanhSáchNhàCungCấpToolStripMenuItem.Click += DanhSáchNhàCungCấpToolStripMenuItem_Click;            
         }
 
         private void DanhSáchNhàCungCấpToolStripMenuItem_Click(object sender, EventArgs e)
@@ -70,6 +72,10 @@ namespace GUI
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+            lb_Role.Location = new Point(this.ClientSize.Width - lb_Role.Width - 150, 0);
+            lb_Name.Location = new Point(this.ClientSize.Width - lb_Name.Width - 50, 0);
+            lb_Role.Text = Role;
+            lb_Name.Text = TenDangNhap;
         }
     }
 }

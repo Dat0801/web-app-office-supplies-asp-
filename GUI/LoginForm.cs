@@ -27,6 +27,7 @@ namespace GUI
             }
             this.Visible = false;
             Program.mainForm.TenDangNhap = loginControl1.TenDangNhap;
+            Program.mainForm.Role = loginControl1.Role;
             Program.mainForm.Show();
         }
     }

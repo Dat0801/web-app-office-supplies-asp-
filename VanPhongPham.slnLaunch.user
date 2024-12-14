@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Name": "VanPhongPham\\VanPhongPham.csproj",
+        "Action": "Start",
+        "DebugTarget": ""
+      },
+      {
+        "Name": "GUI\\GUI.csproj",
+        "Action": "StartWithoutDebugging"
+      }
+    ]
+  }
+]
