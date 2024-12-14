@@ -90,6 +90,17 @@ document.getElementById("addProduct").addEventListener("click", function () {
         return;
     }
 
+    // Kiểm tra xem quantity và price có hợp lệ không
+    if (!Number.isInteger(parseFloat(quantity)) || parseInt(quantity) < 20) {
+        alert("Số lượng phải là một số nguyên và lớn hơn hoặc bằng 20.");
+        return;
+    }
+
+    if (parseFloat(price) < 3000) {
+        alert("Giá phải lớn hơn hoặc bằng 3000.");
+        return;
+    }
+
     // Kiểm tra mã sản phẩm có hợp lệ không
     let product = products.find(p => p.Value === productCode);
 
@@ -147,15 +158,51 @@ document.getElementById("addProduct").addEventListener("click", function () {
     document.getElementById("price").value = "";
 });
 
-// Khi form được gửi, thu thập chi tiết đơn hàng từ bảng
-document.querySelector("form").addEventListener("submit", function (event) {
-    // Ngừng gửi form nếu bảng không có sản phẩm
-    let rows = document.querySelectorAll("#orderDetailsTable tbody tr");
+    document.querySelector("form").addEventListener("submit", function (event) {
+        // Ngừng gửi form nếu bảng không có sản phẩm
+        let rows = document.querySelectorAll("#orderDetailsTable tbody tr");
 
-    if (rows.length === 0) {
-        event.preventDefault();  // Ngừng gửi form
-        alert("Vui lòng thêm sản phẩm vào bảng trước khi tạo phiếu đặt.");
-        return;
-    }
-});
+        if (rows.length === 0) {
+            event.preventDefault();  // Ngừng gửi form
+            alert("Vui lòng thêm sản phẩm vào bảng trước khi tạo phiếu đặt.");
+            return;
+        }
+
+        // Kiểm tra từng dòng trong bảng
+        for (let row of rows) {
+            let quantityInput = row.querySelector(".quantity-input");
+            let priceInput = row.querySelector(".price-input");
+
+            let quantity = quantityInput.value;
+            let price = priceInput.value;
+
+            // Kiểm tra xem số lượng và giá có được nhập hay không
+            if (!quantity || !price) {
+                event.preventDefault();  // Ngừng gửi form
+                alert("Số lượng và giá không được để trống.");
+                return;
+            }
+
+            // Kiểm tra số lượng tối thiểu là 20
+            if (parseInt(quantity) < 20) {
+                event.preventDefault();  // Ngừng gửi form
+                alert("Số lượng phải lớn hơn hoặc bằng 20.");
+                return;
+            }
+
+            // Kiểm tra giá tối thiểu là 3000
+            if (parseFloat(price) < 3000) {
+                event.preventDefault();  // Ngừng gửi form
+                alert("Giá phải lớn hơn hoặc bằng 3000.");
+                return;
+            }
+
+            // Kiểm tra nếu số lượng không phải là số nguyên
+            if (!Number.isInteger(parseFloat(quantity))) {
+                event.preventDefault();  // Ngừng gửi form
+                alert("Số lượng phải là một số nguyên.");
+                return;
+            }
+        }
+    });
 </script>

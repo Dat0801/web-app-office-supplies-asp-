@@ -14,9 +14,11 @@ namespace Controls
     {
         public PictureBox PictureBox { get; private set; }
         private readonly Button btnDelete;
+        public string ImagePath { get; private set; }
         public ImageWithButton(string imagePath)
         {
             InitializeComponent();
+            ImagePath = imagePath;
             PictureBox = new PictureBox
             {
                 Image = Image.FromFile(imagePath),

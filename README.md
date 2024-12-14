@@ -1,8 +1,8 @@
-# Hệ thống quản lý văn phòng phẩm
+# Hệ thống quản lý cửa hàng văn phòng phẩm
 
 ## Tóm Tắt Dự Án
 
-Dự án này tập trung phát triển hệ thống quản lý văn phòng phẩm, nhằm hỗ trợ việc bán và theo dõi các sản phẩm văn phòng phẩm như bút, giấy, kẹp giấy, hồ dán, và các dụng cụ văn phòng khác. Phần mềm sẽ cung cấp một giao diện thân thiện và trực quan, giúp người dùng dễ dàng quản lý nhu cầu văn phòng phẩm của mình. Mục tiêu là tối ưu hóa quy trình mua sắm, quản lý tồn kho, và đảm bảo cung cấp đủ sản phẩm cần thiết cho cá nhân và tổ chức, từ đó nâng cao hiệu suất làm việc và giảm thiểu lãng phí.
+Dự án này tập trung phát triển hệ thống quản lý cửa hàng văn phòng phẩm, nhằm hỗ trợ việc bán và theo dõi các sản phẩm văn phòng phẩm như bút, giấy, kẹp giấy, hồ dán, và các dụng cụ văn phòng khác. Phần mềm sẽ cung cấp một giao diện thân thiện và trực quan, giúp người dùng dễ dàng quản lý nhu cầu văn phòng phẩm của mình. Mục tiêu là tối ưu hóa quy trình mua sắm, quản lý tồn kho, và đảm bảo cung cấp đủ sản phẩm cần thiết cho cá nhân và tổ chức, từ đó nâng cao hiệu suất làm việc và giảm thiểu lãng phí.
 
 ## Thành Viên
 | STT               | Họ tên              | Chức vụ                     | Email|
@@ -10,7 +10,7 @@ Dự án này tập trung phát triển hệ thống quản lý văn phòng ph�
 | 1  | Nguyễn Từ Thành Đạt        | Nhóm trưởng      | nttd0801@gmail.com  | 
 | 2    | Dương Thuận Quang     |  Thành viên   | quanglopxe@gmail.com  | 
 
-## Tính Năng Trang Người Dùng (Website)
+## Tính Năng Trang Người Dùng
 - **Đăng Ký Tài Khoản**: Người dùng có thể đăng ký tài khoản mới thông qua email để xác nhận và tạo tài khoản cá nhân.
 - **Xem Danh Mục Sản Phẩm**: Hiển thị các danh mục văn phòng phẩm như bút, giấy, kẹp giấy, hồ dán, và các dụng cụ văn phòng khác.
 - **Xem Danh Sách Sản Phẩm**: Cung cấp thông tin chi tiết về từng sản phẩm, bao gồm giá cả, số lượng tồn kho, mô tả sản phẩm, và các thuộc tính khác.
@@ -20,8 +20,7 @@ Dự án này tập trung phát triển hệ thống quản lý văn phòng ph�
 - **Thiết Kế Responsive**: Tối ưu hóa giao diện cho các thiết bị di động để đảm bảo trải nghiệm người dùng liền mạch trên mọi thiết bị, bao gồm điện thoại và máy tính bảng.
 - **Tích hợp AI Tìm Kiếm Thông Minh**: Cải thiện khả năng tìm kiếm của trang web với gợi ý tự động, nhận dạng lỗi chính tả, và hiểu ngữ nghĩa.
 
-
-## Tính Năng Trang Quản Trị (Desktop)
+## Tính Năng Trang Quản Trị
 
 - **Quản Lý Sản Phẩm**: Thêm, sửa, xóa sản phẩm, bao gồm thông tin chi tiết như tên, giá, hình ảnh và mô tả.
 - **Quản Lý Danh Mục**: Tạo và chỉnh sửa danh mục sản phẩm để tổ chức hàng hóa một cách hợp lý.
@@ -36,15 +35,15 @@ Dự án này tập trung phát triển hệ thống quản lý văn phòng ph�
 | Đăng Ký Tài Khoản       | Dương Thuận Quang    | Thiết kế và phát triển giao diện đăng ký, xác thực email |
 | Xem Danh Mục Sản Phẩm    | Nguyễn Từ Thành Đạt  | Tạo và quản lý danh mục sản phẩm |
 | Xem Danh Sách Sản Phẩm   | Dương Thuận Quang    | Hiển thị thông tin sản phẩm, cập nhật dữ liệu sản phẩm |
-| Tìm Kiếm & Lọc           | Nguyễn Từ Thành Đạt  | Phát triển chức năng tìm kiếm |
+| Tìm Kiếm & Lọc           | Dương Thuận Quang   | Phát triển chức năng tìm kiếm |
 | Giỏ Hàng & Thanh Toán    | Dương Thuận Quang    | Phát triển giỏ hàng, tạo quy trình thanh toán, tích hợp phương thức thanh toán |
-| Theo Dõi Đơn Hàng        | Nguyễn Từ Thành Đạt  | Phát triển chức năng theo dõi đơn hàng, cập nhật trạng thái đơn hàng |
+| Theo Dõi Đơn Hàng        | Nguyễn Từ Thành Đạt   | Phát triển chức năng theo dõi đơn hàng, cập nhật trạng thái đơn hàng |
 | Thiết Kế Responsive      | Dương Thuận Quang    | Thiết kế giao diện responsive, kiểm thử trên các thiết bị |
 | Quản Lý Sản Phẩm         | Nguyễn Từ Thành Đạt  | Thêm, sửa, xóa sản phẩm, cập nhật thông tin sản phẩm |
-| Quản Lý Danh Mục        | Dương Thuận Quang    | Tạo và chỉnh sửa danh mục, quản lý cấu trúc danh mục |
+| Quản Lý Danh Mục        | Nguyễn Từ Thành Đạt    | Tạo và chỉnh sửa danh mục, quản lý cấu trúc danh mục |
 | Quản Lý Đơn Hàng         | Nguyễn Từ Thành Đạt  | Quản lý trạng thái đơn hàng |
-| Quản Lý Nhập Hàng       | Dương Thuận Quang    | Tạo phiếu nhập, nhập thông tin sản phẩm và theo dõi trạng thái nhập hàng |
-| Quản Lý Khách Hàng       | Nguyễn Từ Thành Đạt    | Theo dõi thông tin khách hàng, quản lý lịch sử mua hàng |
+| Quản Lý Nhập Hàng       | Nguyễn Từ Thành Đạt    | Tạo phiếu nhập, nhập thông tin sản phẩm và theo dõi trạng thái nhập hàng |
+| Quản Lý Khách Hàng       | Dương Thuận Quang    | Theo dõi thông tin khách hàng, quản lý lịch sử mua hàng |
 
 ## Công Nghệ Sử Dụng
 

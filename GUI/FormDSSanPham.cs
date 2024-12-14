@@ -35,10 +35,8 @@ namespace GUI
             }
         }
 
-        private void FormDSSanPham_Load(object sender, EventArgs e)
+        public void LoadSanPham()
         {
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.ShowIcon = false;
             var products = productBLL.GetProducts();
             var productWithCategory = from p in products
                                       select new
@@ -61,6 +59,13 @@ namespace GUI
             dataGridViewDSSP.Columns["purchase_price"].HeaderText = "Giá nhập";
             dataGridViewDSSP.Columns["price"].HeaderText = "Giá bán";
             dataGridViewDSSP.Columns["stock_quantity"].HeaderText = "Số lượng tồn";
+        }
+
+        private void FormDSSanPham_Load(object sender, EventArgs e)
+        {
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.ShowIcon = false;
+            LoadSanPham();
         }
     }
 }

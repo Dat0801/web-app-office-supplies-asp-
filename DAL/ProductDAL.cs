@@ -46,5 +46,58 @@ namespace DAL
             product_id += num;
             return product_id;
         }
+
+        public bool AddImages(image image)
+        {
+            try
+            {
+                _context.images.InsertOnSubmit(image);
+                _context.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public bool AddProduct(product product)
+        {
+            try
+            {
+                product.price = string.IsNullOrEmpty(product.price.ToString()) ? 0 : product.price;
+                product.promotion_price = string.IsNullOrEmpty(product.promotion_price.ToString()) ? 0 : product.promotion_price;
+                product.purchase_price = string.IsNullOrEmpty(product.purchase_price.ToString()) ? 0 : product.purchase_price;
+                product.stock_quantity = string.IsNullOrEmpty(product.stock_quantity.ToString()) ? 0 : product.stock_quantity;
+                product.sold = string.IsNullOrEmpty(product.sold.ToString()) ? 0 : product.sold;
+                product.avgRating = string.IsNullOrEmpty(product.avgRating.ToString()) ? 0 : product.avgRating;
+                product.visited = string.IsNullOrEmpty(product.visited.ToString()) ? 0 : product.visited;
+                product.created_at = string.IsNullOrEmpty(product.created_at.ToString()) ? DateTime.Now : product.created_at;
+                _context.products.InsertOnSubmit(product);
+                _context.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public bool AddProductAttributeValue(product_attribute_value product_Attribute_Value)
+        {
+            try
+            {
+                _context.product_attribute_values.InsertOnSubmit(product_Attribute_Value);
+                _context.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
     }
 }

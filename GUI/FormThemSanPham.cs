@@ -11,14 +11,21 @@ using System.Windows.Forms;
 using BLL;
 using Controls;
 using VanPhongPham.Models;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using System.Net;
+
 namespace GUI
 {
     public partial class FormThemSanPham : Form
     {
+        private readonly Account _cloudinaryAccount = new Account("dgvcrawly", "173992459599594", "F0N2oghE7dRuopEEVqmtRUf9mIQ");
+        private readonly Cloudinary _cloudinary;
         private readonly ProductBLL productBLL = new ProductBLL();
         public FormThemSanPham()
         {
             InitializeComponent();
+            _cloudinary = new Cloudinary(_cloudinaryAccount);
             btnPrimaryImage.Click += BtnPrimaryImage_Click;
             btnSecondaryImage.Click += BtnSecondaryImage_Click;
             btnThemSP.Click += BtnThemSP_Click;
@@ -34,7 +41,7 @@ namespace GUI
                 MessageBox.Show("Tên sản phẩm không để trống!");
                 txtTenSP.Focus();
                 return false;
-            } 
+            }
 
             if (string.IsNullOrWhiteSpace(txtHeSo.Text))
             {
@@ -50,15 +57,123 @@ namespace GUI
                 return false;
             }
 
+            if (string.IsNullOrEmpty(txtSoLuong.Text))
+                txtSoLuong.Text = "0";
+
+            if (string.IsNullOrEmpty(txtGiaNhap.Text))
+                txtGiaNhap.Text = "0";
+
             return true;
         }
 
+        private Boolean addPrimaryImage(string product_id)
+        {
+            if (!string.IsNullOrEmpty(selectedImageFileName) && !string.IsNullOrEmpty(selectedImageFilePath))
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(selectedImageFileName, selectedImageFilePath),
+                    Folder = "user_avatars"
+                };
+
+                var uploadResult = _cloudinary.Upload(uploadParams);
+                if (uploadResult.StatusCode == HttpStatusCode.OK)
+                {
+                    var result = uploadResult.SecureUrl.ToString();
+                    image mainImage = new image
+                    {
+                        image_url = result,
+                        is_primary = true,
+                        product_id = product_id
+                    };
+                    productBLL.AddImages(mainImage);
+                    return true;
+                }
+            }
+            MessageBox.Show("Vui lòng chọn một hình ảnh chính trước khi thêm sản phẩm.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return false;
+        }
+
+        private Boolean addSecondaryImages(string product_id)
+        {
+            if (flowLayoutPanelImages.Controls.Count > 0)
+            {
+                foreach (Control control in flowLayoutPanelImages.Controls)
+                {
+                    if (control is ImageWithButton imageControl)
+                    {
+                        string imagePath = imageControl.ImagePath;
+                        string fileName = Path.GetFileName(imagePath);
+
+                        var uploadParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(fileName, imagePath),
+                            Folder = "user_avatars"
+                        };
+
+                        var uploadResult = _cloudinary.Upload(uploadParams);
+
+                        if (uploadResult.StatusCode == HttpStatusCode.OK)
+                        {
+                            var result = uploadResult.SecureUrl.ToString();
+                            image additionalImage = new image
+                            {
+                                image_url = result,
+                                is_primary = false,
+                                product_id = product_id
+                            };
+                            productBLL.AddImages(additionalImage);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Không thể tải lên hình ảnh phụ: {fileName}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         private void BtnThemSP_Click(object sender, EventArgs e)
         {
-            if(ValidateTextBox())
+            if (ValidateTextBox())
             {
+                int selectedValue = (int)cboTrangThai.SelectedValue;
+                product newProduct = new product()
+                {
+                    product_id = txtMaSP.Text,
+                    product_name = txtTenSP.Text,
+                    purchase_price = double.Parse(txtGiaNhap.Text),
+                    price_coefficient = double.Parse(txtHeSo.Text),
+                    stock_quantity = int.Parse(txtSoLuong.Text),
+                    category_id = (string)cboDanhMuc.SelectedValue,
+                    status = selectedValue == 1 ? (bool?)true : (bool?)false
+                };
 
+                if (addPrimaryImage(newProduct.product_id))
+                {
+                    addSecondaryImages(newProduct.product_id);
+                    productBLL.AddProduct(newProduct);
+                    foreach (var control in flowLayoutPanelGTThuocTinh.Controls)
+                    {
+                        if (control is CheckBox checkBox && checkBox.Checked)
+                        {
+                            product_attribute_value product_Attribute_Value = new product_attribute_value
+                            {
+                                product_id = newProduct.product_id,
+                                attribute_value_id = (string)checkBox.Tag,
+                            };
+                            productBLL.AddProductAttributeValue(product_Attribute_Value);
+                        }
+                    }
+                    MessageBox.Show("Thêm sản phẩm thành công!");
+                    Program.formDSSanPham.LoadSanPham();
+                }
             }
         }
 
@@ -91,6 +206,8 @@ namespace GUI
             }
         }
 
+        private string selectedImageFileName;
+        private string selectedImageFilePath;
         private void BtnPrimaryImage_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -103,9 +220,9 @@ namespace GUI
             {
                 try
                 {
-                    string filePath = openFileDialog.FileName;
-                    Image img = Image.FromFile(filePath);
-
+                    selectedImageFilePath = openFileDialog.FileName;
+                    selectedImageFileName = Path.GetFileName(selectedImageFilePath);
+                    Image img = Image.FromFile(selectedImageFilePath);
                     pictureBoxPrimaryImage.Image = img;
                     pictureBoxPrimaryImage.SizeMode = PictureBoxSizeMode.Zoom;
                 }
@@ -166,6 +283,7 @@ namespace GUI
                     CheckBox checkBoxValue = new CheckBox
                     {
                         Text = value.value,
+                        Tag = value.attribute_value_id,
                         AutoSize = true
                     };
 
@@ -200,10 +318,10 @@ namespace GUI
 
             cboTrangThai.DataSource = trangThaiList;
 
-            cboTrangThai.DisplayMember = "Key";   
-            cboTrangThai.ValueMember = "Value";  
+            cboTrangThai.DisplayMember = "Key";
+            cboTrangThai.ValueMember = "Value";
 
-            cboTrangThai.SelectedValue = 1; 
+            cboTrangThai.SelectedValue = 1;
         }
 
         private void LoadDanhMuc()

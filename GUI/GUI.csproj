@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CloudinaryDotNet, Version=1.26.2.0, Culture=neutral, PublicKeyToken=c8234dc617ae7841, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CloudinaryDotNet.1.26.2\lib\net452\CloudinaryDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="Controls">
       <HintPath>..\Controls\bin\Debug\Controls.dll</HintPath>
     </Reference>
