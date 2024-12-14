@@ -49,11 +49,6 @@ namespace GUI
             Program.loginForm.Show();
         }
 
-        private void ThêmSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void DanhSáchSảnPhẩmToolStripMenuItem1_Click(object sender, EventArgs e)
         {
            

@@ -92,6 +92,7 @@ namespace VanPhongPham.Controllers
             //}
             if (!string.IsNullOrEmpty(searchStr))
             {
+
                 // Chuyển searchStr và các mô tả sản phẩm thành vector bằng AI hoặc TF-IDF                
                 products = aiSearchEngine.FindRelevantProducts(searchStr, products);
             }

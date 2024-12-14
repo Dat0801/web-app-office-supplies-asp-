@@ -1,0 +1,9 @@
+D:\HK7\PTUDTM\web-app-office-supplies-asp-winform\Helper\bin\Debug\Helper.dll
+D:\HK7\PTUDTM\web-app-office-supplies-asp-winform\Helper\bin\Debug\Helper.pdb
+D:\HK7\PTUDTM\web-app-office-supplies-asp-winform\Helper\bin\Debug\Newtonsoft.Json.dll
+D:\HK7\PTUDTM\web-app-office-supplies-asp-winform\Helper\bin\Debug\Newtonsoft.Json.xml
+D:\HK7\PTUDTM\web-app-office-supplies-asp-winform\Helper\obj\Debug\Helper.csproj.AssemblyReference.cache
+D:\HK7\PTUDTM\web-app-office-supplies-asp-winform\Helper\obj\Debug\Helper.csproj.CoreCompileInputs.cache
+D:\HK7\PTUDTM\web-app-office-supplies-asp-winform\Helper\obj\Debug\Helper.csproj.CopyComplete
+D:\HK7\PTUDTM\web-app-office-supplies-asp-winform\Helper\obj\Debug\Helper.dll
+D:\HK7\PTUDTM\web-app-office-supplies-asp-winform\Helper\obj\Debug\Helper.pdb

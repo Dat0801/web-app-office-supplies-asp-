@@ -34,5 +34,20 @@ namespace BLL
         {
             return productDAL.GenerateProductId();
         }
+
+        public bool AddImages(image image)
+        {
+            return productDAL.AddImages(image);
+        }
+
+        public bool AddProduct(product product)
+        {
+            return productDAL.AddProduct(product);
+        }
+
+        public bool AddProductAttributeValue(product_attribute_value product_Attribute_Value)
+        {
+            return productDAL.AddProductAttributeValue(product_Attribute_Value);
+        }
     }
 }
