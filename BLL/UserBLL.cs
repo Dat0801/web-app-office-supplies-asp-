@@ -14,5 +14,10 @@ namespace BLL
         {
             return userDAL.CheckLoginAdmin(username, password);
         }
+
+        public user GetUserByPhone(string phone_number)
+        {
+            return userDAL.GetUserByPhone(phone_number);
+        }
     }
 }

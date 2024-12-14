@@ -13,6 +13,7 @@ namespace GUI
         public static FormDSSanPham formDSSanPham = null;
         public static FormThemSanPham formThemSP = null;
         public static FormDSNhaCungCap formDSNhaCungCap = null;
+        public static FormQLBanHang formQLBanHang = null;
 
         /// <summary>
         /// The main entry point for the application.

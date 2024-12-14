@@ -22,7 +22,26 @@ namespace GUI
             InitializeComponent();
             this.IsMdiContainer = true;
             this.FormClosed += MainForm_FormClosed;
-            this.DanhSáchNhàCungCấpToolStripMenuItem.Click += DanhSáchNhàCungCấpToolStripMenuItem_Click;            
+            this.DanhSáchNhàCungCấpToolStripMenuItem.Click += DanhSáchNhàCungCấpToolStripMenuItem_Click;
+            this.QuảnLýBánHàngToolStripMenuItem.Click += QuảnLýBánHàngToolStripMenuItem_Click;
+        }
+
+        private void QuảnLýBánHàngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Program.formQLBanHang == null || Program.formQLBanHang.IsDisposed)
+            {
+                Program.formQLBanHang = new FormQLBanHang
+                {
+                    MdiParent = this,
+                    FormBorderStyle = FormBorderStyle.FixedSingle,
+                    MaximizeBox = false
+                };
+                Program.formQLBanHang.Show();
+            }
+            else
+            {
+                Program.formQLBanHang.BringToFront();
+            }
         }
 
         private void DanhSáchNhàCungCấpToolStripMenuItem_Click(object sender, EventArgs e)

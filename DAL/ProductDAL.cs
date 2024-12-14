@@ -19,6 +19,11 @@ namespace DAL
             return _context.products.Where(p => p.status == true && p.category.status == true).ToList();
         }
 
+        public product GetProduct(string product_id)
+        {
+            return _context.products.FirstOrDefault(p => p.status == true && p.product_id == product_id);
+        }
+
         public List<attribute> GetAttributes()
         {
             return _context.attributes.Where(att => att.status == true).ToList();
