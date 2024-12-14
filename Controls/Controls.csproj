@@ -44,11 +44,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageWithButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImageWithButton.Designer.cs">
+      <DependentUpon>ImageWithButton.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="LoginControl.Designer.cs">
       <DependentUpon>LoginControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotEmptyTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NotEmptyTextBox.Designer.cs">
+      <DependentUpon>NotEmptyTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NumbericTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NumbericTextbox.Designer.cs">
+      <DependentUpon>NumbericTextbox.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

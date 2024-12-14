@@ -12,6 +12,7 @@ namespace GUI
         public static LoginForm loginForm = null;
         public static FormDSSanPham formDSSanPham = null;
         public static FormThemSanPham formThemSP = null;
+        public static FormDSNhaCungCap formDSNhaCungCap = null;
 
         /// <summary>
         /// The main entry point for the application.

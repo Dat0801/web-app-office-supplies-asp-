@@ -32,7 +32,7 @@ namespace GUI
             this.dataGridViewDSSP = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.txtTimKiem = new System.Windows.Forms.TextBox();
-            this.btnThemSP = new System.Windows.Forms.Button();
+            this.BtnThemSP = new System.Windows.Forms.Button();
             this.btnTimKiem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDSSP)).BeginInit();
             this.SuspendLayout();
@@ -64,15 +64,15 @@ namespace GUI
             this.txtTimKiem.Size = new System.Drawing.Size(192, 22);
             this.txtTimKiem.TabIndex = 2;
             // 
-            // btnThemSP
+            // BtnThemSP
             // 
-            this.btnThemSP.Location = new System.Drawing.Point(427, 105);
-            this.btnThemSP.Name = "btnThemSP";
-            this.btnThemSP.Size = new System.Drawing.Size(156, 47);
-            this.btnThemSP.TabIndex = 3;
-            this.btnThemSP.Text = "Thêm sản phẩm";
-            this.btnThemSP.UseVisualStyleBackColor = true;
-            this.btnThemSP.Click += new System.EventHandler(this.btnThemSP_Click);
+            this.BtnThemSP.Location = new System.Drawing.Point(427, 105);
+            this.BtnThemSP.Name = "BtnThemSP";
+            this.BtnThemSP.Size = new System.Drawing.Size(156, 47);
+            this.BtnThemSP.TabIndex = 3;
+            this.BtnThemSP.Text = "Thêm sản phẩm";
+            this.BtnThemSP.UseVisualStyleBackColor = true;
+            this.BtnThemSP.Click += new System.EventHandler(this.BtnThemSP_Click);
             // 
             // btnTimKiem
             // 
@@ -89,7 +89,7 @@ namespace GUI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1122, 582);
             this.Controls.Add(this.btnTimKiem);
-            this.Controls.Add(this.btnThemSP);
+            this.Controls.Add(this.BtnThemSP);
             this.Controls.Add(this.txtTimKiem);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridViewDSSP);
@@ -107,7 +107,7 @@ namespace GUI
         private System.Windows.Forms.DataGridView dataGridViewDSSP;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtTimKiem;
-        private System.Windows.Forms.Button btnThemSP;
+        private System.Windows.Forms.Button BtnThemSP;
         private System.Windows.Forms.Button btnTimKiem;
     }
 }
