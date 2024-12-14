@@ -36,5 +36,18 @@ namespace DAL
                 return sb.ToString();
             }
         }
+
+        public user GetUserByPhone(string phone_number)
+        {
+            var address = _context.addresses.FirstOrDefault(a => a.phone_number == phone_number);
+
+            if (address == null || address.user_id == null)
+            {
+                return null;
+            }
+
+            return _context.users.FirstOrDefault(u => u.user_id == address.user_id);
+        }
+
     }
 }

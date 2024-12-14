@@ -15,6 +15,11 @@ namespace BLL
             return productDAL.GetProducts();
         }
 
+        public product GetProduct(string product_id)
+        {
+            return productDAL.GetProduct(product_id);
+        }
+
         public List<attribute> GetAttributes()
         {
             return productDAL.GetAttributes();
