@@ -16,7 +16,7 @@ namespace VanPhongPham.Models
             _context = new DB_VanPhongPhamDataContext();
         }
 
-        public ViewModels GetAllProducts(string priceRange = null, List<string> colors = null, List<string> brands = null)
+        public ViewModels GetAllProducts(string priceRange = null, List<string> colors = null, List<string> brands = null/*, string searchQuery = null*/)
         {
             var currentDate = DateTime.Now;
             var query = _context.products.Where(p => p.status == true);
@@ -85,7 +85,7 @@ namespace VanPhongPham.Models
                              brands.Contains(a.Value, StringComparer.OrdinalIgnoreCase)))
                     .ToList();
             }
-
+            
             // Convert to ProductViewModel
             var productViewModels = products.Select(p => new ProductViewModel
             {
@@ -107,7 +107,12 @@ namespace VanPhongPham.Models
                 Categories = p.category,
                 Attributes = p.Attributes
             }).ToList();
-
+            //if (!string.IsNullOrEmpty(searchQuery))
+            //{
+            //    // Chuyển searchQuery và các mô tả sản phẩm thành vector bằng AI hoặc TF-IDF
+            //    var aiSearchEngine = new AISearchEngine(); // Một class giả lập
+            //    productViewModels = aiSearchEngine.FindRelevantProducts(searchQuery, productViewModels);
+            //}
             var viewModels = new ViewModels
             {
                 ProductViewModel = productViewModels,
