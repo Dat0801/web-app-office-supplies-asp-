@@ -14,3 +14,7 @@ BLL/obj/Debug/
 Controls/obj/Debug/
 DAL/obj/Debug/
 GUI/obj/Debug/
+BLL/bin/Debug/
+Controls/bin/Debug/
+DAL/bin/Debug/
+GUI/bin/Debug/
