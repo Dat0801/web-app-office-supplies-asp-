@@ -92,6 +92,7 @@
                                autocomplete="off"
                                value="@Request.QueryString["searchStr"]" >                        
                         <div id="suggestions" style="border: 1px solid #ccc; display: none; position: absolute; top: 40px; background: white; width: 400px; z-index: 2" ></div>
+                        
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-outline-primary">
                                 <i class="fa fa-search"></i>
@@ -196,6 +197,58 @@
             }
         }, 300); // Wait 300ms to trigger search after typing
     });
+
+    searchBox.addEventListener("focus", async () => {
+        if (searchBox.value.trim() === "") { // Kiểm tra ô tìm kiếm rỗng
+            const response = await fetch(`/ProductClient/GetSuggestedProductsHaveMostInteractions`);
+            if (!response.ok) return;
+
+            const suggestions = await response.json(); 
+
+            // Hiển thị các sản phẩm gợi ý nếu tồn tại
+            if (suggestions.length > 0) {
+                suggestionsDiv.style.display = "block";
+
+                // Dòng tiêu đề trên cùng
+                const header = `
+                <div style="
+                    font-weight: bold;
+                    padding: 8px;
+                    background-color: #f8f8f8;
+                    border-bottom: 1px solid #ddd;
+                    text-align: center;
+                    color: #ff5722;
+                ">
+                    Các sản phẩm hot được săn đón nhiều nhất
+                </div>
+            `;
+
+                // Danh sách sản phẩm
+                const productList = suggestions
+                    .map(s => `
+                    <div style="padding: 5px; cursor: pointer; display: flex; align-items: center;">
+                        <span style="flex: 1;">${s}</span>
+                        <span style="color: red; font-size: 14px;">🔥</span>
+                    </div>
+                `)
+                    .join("");
+
+                // Gắn header + danh sách sản phẩm vào suggestionsDiv
+                suggestionsDiv.innerHTML = header + productList;
+
+                // Xử lý sự kiện khi click vào sản phẩm gợi ý
+                Array.from(suggestionsDiv.children).forEach((item, index) => {
+                    if (index === 0) return; // Bỏ qua dòng header
+                    item.addEventListener("click", () => {
+                        searchBox.value = suggestions[index - 1].Name; // Trừ đi 1 để bỏ qua header
+                        suggestionsDiv.style.display = "none";
+                    });
+                });
+            }
+        }
+    });
+
+
 
     // Hide suggestions when clicking outside of the input box
     document.addEventListener("click", (event) => {

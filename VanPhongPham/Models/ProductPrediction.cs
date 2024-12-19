@@ -7,6 +7,6 @@ namespace VanPhongPham.Models
 {
     public class ProductPrediction
     {
-        public double Score { get; set; }
+        public float Score { get; set; }
     }
 }

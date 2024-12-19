@@ -28,7 +28,7 @@ namespace VanPhongPham.Controllers
             {
                 FirebaseToken decodedToken = await FirebaseService.VerifyTokenAsync(token);
                 string uid = decodedToken.Uid;
-
+                Session["userId"] = uid;
                 var user = db.users.SingleOrDefault(u => u.user_id == uid);                
                 if (user != null)
                 {

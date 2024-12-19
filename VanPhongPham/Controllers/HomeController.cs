@@ -28,6 +28,10 @@ namespace VanPhongPham.Controllers
             var categories = _categoryRepository.GetCategories();
             return PartialView("_Dropdown", categories);
         }        
-        
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
