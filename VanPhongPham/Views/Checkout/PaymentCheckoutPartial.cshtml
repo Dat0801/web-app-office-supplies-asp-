@@ -166,6 +166,7 @@
 
 <script>
     const userData1 = JSON.parse(sessionStorage.getItem('user'));
+    const cartItems = JSON.parse(sessionStorage.getItem('items')).items || [];
     var storedAddress1 = sessionStorage.getItem("selectedAddress");
     const todistrict = storedAddress1 ? JSON.parse(storedAddress1).district : '@(adrs != null ? adrs.district.ToString() : "default-district")';
     const toward = storedAddress1 ? JSON.parse(storedAddress1).ward : '@(adrs != null ? adrs.ward.ToString() : "default-ward")';
@@ -227,12 +228,59 @@
             console.error("Lỗi trong quá trình xử lý:", error);
         }
     });
+    async function getProductIdByName(productName) {
+        try {
+            const response = await fetch('/ProductClient/GetProductIdByName', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productName }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                return result.productId;
+            } else {
+                console.error(result.message);
+                return null;
+            }
+        } catch (error) {
+            console.error("Lỗi khi gọi API GetProductIdByName", error);
+            return null;
+        }
+    }
+    async function updateProductInteraction(productId, interactionType) {
+        try {
+            const response = await fetch('/ProductClient/UpdateProductInteraction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId, interactionType }),
+            });
+            const result = await response.json();
+            if (!result.success) {
+                console.error(`Lỗi khi cập nhật tương tác sản phẩm với ID ${productId}: ${result.message}`);
+            }
+        } catch (error) {
+            console.error("Lỗi khi gọi API UpdateProductInteraction", error);
+        }
+    }
 
 
     document.querySelector('.order-button').addEventListener('click', async () => {
         try {
             const ordnote = document.getElementById('ordernote');
             const selectedMethod = document.getElementById('payment-method-select').value;
+            for (const item of cartItems) {
+                const productId = await getProductIdByName(item.name);
+                if (productId) {
+                    // Gọi API cập nhật tương tác sản phẩm
+                    await updateProductInteraction(productId, "purchase_count");
+                } else {
+                    console.error(`Không tìm thấy product_id cho sản phẩm: ${item.name}`);
+                }
+            }
             // Lấy giá trị từ phần tử HTML có chứa phí vận chuyển
             let shipping_fee_text = document.querySelector('.fee-ship').innerText;
 

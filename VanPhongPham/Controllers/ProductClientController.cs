@@ -189,6 +189,16 @@ namespace VanPhongPham.Controllers
             _productRepository.UpdateProductInteractions(userId, new List<string> { productId }, interactionType);
             return Json(new { success = true });                       
         }
+        [HttpPost]
+        public JsonResult GetProductIdByName(string productName)
+        {
+            var product = _productRepository.GetProductByName(productName);
+            if (product != null)
+            {
+                return Json(new { success = true, productId = product.product_id });
+            }
+            return Json(new { success = false, message = "Product not found" });
+        }
 
         public ActionResult Details(string id, string cart_id)
         {
