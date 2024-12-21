@@ -7,6 +7,7 @@
     {
         ViewBag.Title = "Sản Phẩm - QVD";
     }
+    var products = ViewBag.Products as IEnumerable<VanPhongPham.Models.ProductViewModel>;
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -24,10 +25,10 @@
                     <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                         <input type="radio" class="custom-control-input price-filter" name="priceFilter" checked id="price-all" value="all">
                         <label class="custom-control-label" for="price-all">Tất cả giá</label>
-                        @if (Model.ProductViewModel != null)
+                        @if (products != null)
                         {
                             <span class="badge border font-weight-normal">
-                                @Model.ProductViewModel.Count()
+                                @products.Count()
                             </span>
                         }
                         else
@@ -38,10 +39,10 @@
                     <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                         <input type="radio" class="custom-control-input price-filter" name="priceFilter" id="price-1" value="0-100000">
                         <label class="custom-control-label" for="price-1">0 - 100,000 VND</label>
-                        @if (Model.ProductViewModel != null)
+                        @if (products != null)
                         {
                             <span class="badge border font-weight-normal">
-                                @Model.ProductViewModel.Count(p => p.Price >= 0 && p.Price <= 100000)
+                                @products.Count(p => p.Price >= 0 && p.Price <= 100000)
                             </span>
                         }
                         else
@@ -52,10 +53,10 @@
                     <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                         <input type="radio" class="custom-control-input price-filter" name="priceFilter" id="price-2" value="100000-200000">
                         <label class="custom-control-label" for="price-2">100,000 - 200,000 VND</label>
-                        @if (Model.ProductViewModel != null)
+                        @if (products != null)
                         {
                             <span class="badge border font-weight-normal">
-                                @Model.ProductViewModel.Count(p => p.Price >= 100000 && p.Price <= 200000)
+                                @products.Count(p => p.Price >= 100000 && p.Price <= 200000)
                             </span>
                         }
                         else
@@ -66,10 +67,10 @@
                     <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                         <input type="radio" class="custom-control-input price-filter" name="priceFilter" id="price-3" value="200000-300000">
                         <label class="custom-control-label" for="price-3">200,000 - 300,000 VND</label>
-                        @if (Model.ProductViewModel != null)
+                        @if (products != null)
                         {
                             <span class="badge border font-weight-normal">
-                                @Model.ProductViewModel.Count(p => p.Price >= 200000 && p.Price <= 300000)
+                                @products.Count(p => p.Price >= 200000 && p.Price <= 300000)
                             </span>
                         }
                         else
@@ -88,10 +89,10 @@
                     <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                         <input type="radio" class="custom-control-input color-filter" checked id="color-all" name="color" value="all">
                         <label class="custom-control-label" for="color-all">Tất cả màu sắc</label>
-                        @if (Model.ProductViewModel != null)
+                        @if (products != null)
                         {
                             <span class="badge border font-weight-normal">
-                                @Model.ProductViewModel.Count()
+                                @products.Count()
                             </span>
                         }
                         else
@@ -99,9 +100,9 @@
                             <span class="badge border font-weight-normal">0</span>
                         }
                     </div>
-                    @if (Model.ProductViewModel != null)
+                    @if (products != null)
                     {
-                        foreach (var color in Model.ProductViewModel.SelectMany(p => p.Attributes)
+                        foreach (var color in products.SelectMany(p => p.Attributes)
                             .Where(a => a.AttributeName.ToLower() == "màu sắc")
                             .Select(a => a.Value)
                             .Distinct())
@@ -110,7 +111,7 @@
                                 <input type="radio" class="custom-control-input color-filter" id="color-@color" name="color" value="@color">
                                 <label class="custom-control-label" for="color-@color">@color</label>
                                 <span class="badge border font-weight-normal">
-                                    @Model.ProductViewModel.Count(p => p.Attributes.Any(a =>
+                                    @products.Count(p => p.Attributes.Any(a =>
                                         a.AttributeName.ToLower() == "màu sắc" && a.Value == color))
                                 </span>
                             </div>
@@ -126,10 +127,10 @@
                     <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
                         <input type="radio" class="custom-control-input brand-filter" checked id="brand-all" name="brand" value="all">
                         <label class="custom-control-label" for="brand-all">Tất cả thương hiệu</label>
-                        @if (Model.ProductViewModel != null)
+                        @if (products != null)
                         {
                             <span class="badge border font-weight-normal">
-                                @Model.ProductViewModel.Count()
+                                @products.Count()
                             </span>
                         }
                         else
@@ -137,9 +138,9 @@
                             <span class="badge border font-weight-normal">0</span>
                         }
                     </div>
-                    @if (Model.ProductViewModel != null)
+                    @if (products != null)
                     {
-                        foreach (var brand in Model.ProductViewModel.SelectMany(p => p.Attributes)
+                        foreach (var brand in products.SelectMany(p => p.Attributes)
                             .Where(a => a.AttributeName.ToLower() == "thương hiệu")
                             .Select(a => a.Value)
                             .Distinct())
@@ -148,7 +149,7 @@
                                 <input type="radio" class="custom-control-input brand-filter" id="brand-@brand" name="brand" value="@brand">
                                 <label class="custom-control-label" for="brand-@brand">@brand</label>
                                 <span class="badge border font-weight-normal">
-                                    @Model.ProductViewModel.Count(p => p.Attributes.Any(a =>
+                                    @products.Count(p => p.Attributes.Any(a =>
                                         a.AttributeName.ToLower() == "thương hiệu" && a.Value == brand))
                                 </span>
                             </div>
@@ -222,12 +223,14 @@
                                     </div>
                                 </div>
                                 <div class="card-footer d-flex justify-content-between bg-light border">
-                                    <a href="@Url.Action("Details", "ProductClient", new { id = product.ProductId })" class="btn btn-sm text-dark p-0">
+                                    <a href="@Url.Action("Details", "ProductClient", new { id = product.ProductId })"
+                                       class="btn btn-sm text-dark p-0 view-details"
+                                       data-product-id="@product.ProductId">
                                         <i class="fas fa-eye text-primary mr-1"></i>Xem chi tiết
                                     </a>
                                     @if (product.StockQuantity > 0)
                                     {
-                                        <a href="#" class="btn btn-sm text-dark p-0 addToCartLink" data-product-id="@product.ProductId">
+                                        <a href="#" class="btn btn-sm text-dark p-0 cart-count addToCartLink" data-product-id="@product.ProductId">
                                             <i class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ Hàng
                                         </a>
                                     }
@@ -346,6 +349,38 @@
 
 <!-- Shop End -->
 <script>
+    $(document).on("click", ".view-details", function (e) {
+        e.preventDefault();
+        var productId = $(this).data("product-id");
+        $.post("/ProductClient/UpdateProductInteraction",
+            { productId: productId, interactionType: "view_count" },
+            function (response) {
+                if (response.success) {
+                    console.log("Interaction updated successfully");
+                } else {
+                    console.error("Error:", response.message);
+                }
+            });
+
+        // Redirect to details page after updating interaction
+        window.location.href = $(this).attr("href");
+    });
+    $(document).on("click", ".cart-count", function (e) {
+        e.preventDefault();
+        var productId = $(this).data("product-id");
+        $.post("/ProductClient/UpdateProductInteraction",
+            { productId: productId, interactionType: "add_to_cart_count" },
+            function (response) {
+                if (response.success) {
+                    console.log("Interaction updated successfully");
+                } else {
+                    console.error("Error:", response.message);
+                }
+            });
+
+        // Redirect to details page after updating interaction
+        window.location.href = $(this).attr("href");
+    });
     // Create a namespace for our functions to avoid global scope pollution
     const ProductFilter = {
         init: function() {

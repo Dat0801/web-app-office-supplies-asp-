@@ -117,19 +117,7 @@ create table user_roles
     	FOREIGN KEY (user_id) REFERENCES users(user_id),
     	FOREIGN KEY (role_id) REFERENCES roles(role_id)
 )
-CREATE TABLE product_interactions (
-    interaction_id INT IDENTITY(1,1) PRIMARY KEY, 
-    user_id NVARCHAR(255) NOT NULL,                 
-    product_id VARCHAR(10) NOT NULL,              
-    view_count INT DEFAULT 0,                      
-    add_to_cart_count INT DEFAULT 0,                 
-    purchase_count INT DEFAULT 0,                  
-    time_stamp DATETIME DEFAULT GETDATE(),         
-    
-    -- Chỉ mục để tối ưu hóa tìm kiếm theo UserId và ProductId
-    CONSTRAINT FK_UserId FOREIGN KEY (user_id) REFERENCES users(user_id),   -- Khóa ngoại tới bảng Users
-    CONSTRAINT FK_ProductId FOREIGN KEY (product_id) REFERENCES products(product_id)  -- Khóa ngoại tới bảng Products
-);
+
 
 create table addresses
 (
@@ -975,7 +963,8 @@ VALUES
 
 INSERT INTO users (user_id, full_name, username, status)
 VALUES
-('USER001', N'Thành Đạt', 'admin', 'true')
+('USER001', N'Thành Đạt', 'admin', 'true'),
+('khachvanglai', N'Khách vãng lai', 'khachvanglai', 'true')
 
 INSERT INTO user_roles
 VALUES
@@ -1055,7 +1044,24 @@ VALUES
 ('REC003', 'POD002', 'PRO017', 30),
 ('REC003', 'POD002', 'PRO018', 30)
 
+CREATE TABLE product_interactions (
+    interaction_id INT IDENTITY(1,1) PRIMARY KEY, 
+    user_id NVARCHAR(255) NOT NULL,                 
+    product_id VARCHAR(10) NOT NULL,              
+    view_count INT DEFAULT 0,                      
+    add_to_cart_count INT DEFAULT 0,                 
+    purchase_count INT DEFAULT 0,                  
+    time_stamp DATETIME DEFAULT GETDATE(),         
+    
+    -- Chỉ mục để tối ưu hóa tìm kiếm theo UserId và ProductId
+    CONSTRAINT FK_UserId FOREIGN KEY (user_id) REFERENCES users(user_id),   -- Khóa ngoại tới bảng Users
+    CONSTRAINT FK_ProductId FOREIGN KEY (product_id) REFERENCES products(product_id)  -- Khóa ngoại tới bảng Products
+);
+
 INSERT INTO product_interactions(user_id, product_id, view_count, add_to_cart_count, purchase_count)
 VALUES ('USER001', 'PRO001', 10, 2, 1),
        ('USER001', 'PRO002', 5, 1, 0),
        ('USER001', 'PRO001', 15, 3, 2);
+
+select * from product_interactions
+select * from users

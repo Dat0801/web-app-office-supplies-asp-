@@ -15,6 +15,53 @@ namespace VanPhongPham.Models
         {
             _context = new DB_VanPhongPhamDataContext();
         }
+        public void UpdateProductInteractions(string userId, List<string> productIds, string interactionType)
+        {
+            var interactions = _context.product_interactions
+                                .Where(pi => pi.user_id == userId && productIds.Contains(pi.product_id))
+                                .ToDictionary(pi => pi.product_id);
+            foreach (var productId in productIds)
+            {
+                if (interactions.TryGetValue(productId, out var interaction))
+                {
+                    if (interaction != null)
+                    {
+                        // Nếu tồn tại bản ghi, cập nhật cột tương ứng
+                        switch (interactionType)
+                        {
+                            case "view_count":
+                                interaction.view_count += 1;
+                                break;
+                            case "add_to_cart_count":
+                                interaction.add_to_cart_count += 1;
+                                break;
+                            case "purchase_count":
+                                interaction.purchase_count += 1;
+                                break;
+                        }
+                        interaction.time_stamp = DateTime.Now; // Cập nhật timestamp
+                    }
+                }
+                else
+                {
+                    // Nếu không tồn tại, thêm mới bản ghi
+                    var newInteraction = new product_interaction
+                    {
+                        user_id = userId,
+                        product_id = productId,
+                        view_count = interactionType == "view_count" ? 1 : 0,
+                        add_to_cart_count = interactionType == "add_to_cart_count" ? 1 : 0,
+                        purchase_count = interactionType == "purchase_count" ? 1 : 0,
+                        time_stamp = DateTime.Now
+                    };
+                    _context.product_interactions.InsertOnSubmit(newInteraction);
+                }                
+            }
+
+            // Lưu thay đổi vào cơ sở dữ liệu
+            _context.SubmitChanges();
+        }
+
 
         // Phương thức để lấy dữ liệu tương tác của người dùng với sản phẩm
         public List<(string UserId, string ProductId, int? ViewCount, int? AddToCartCount, int? PurchaseCount)> GetUserProductInteractions()

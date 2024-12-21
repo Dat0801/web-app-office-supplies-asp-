@@ -7,8 +7,8 @@ namespace VanPhongPham.Models
 {
     public class PurchaseData
     {
-        public int UserId { get; set; }
-        public double ProductId { get; set; }
-        public double Label { get; set; }
+        public uint UserId { get; set; }
+        public uint ProductId { get; set; }
+        public float Label { get; set; }
     }
 }
