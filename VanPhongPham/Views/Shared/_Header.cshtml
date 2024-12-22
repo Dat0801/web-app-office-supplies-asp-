@@ -240,7 +240,7 @@
                 Array.from(suggestionsDiv.children).forEach((item, index) => {
                     if (index === 0) return; // Bỏ qua dòng header
                     item.addEventListener("click", () => {
-                        searchBox.value = suggestions[index - 1].Name; // Trừ đi 1 để bỏ qua header
+                        searchBox.value = suggestions[index - 1]; // Trừ đi 1 để bỏ qua header
                         suggestionsDiv.style.display = "none";
                     });
                 });
