@@ -15,6 +15,10 @@ namespace BLL
             return productDAL.GetProducts();
         }
 
+        public product GetProductByBarcode(string barcode)
+        {
+            return productDAL.GetProductByBarcode(barcode);
+        }
         public product GetProduct(string product_id)
         {
             return productDAL.GetProduct(product_id);
@@ -40,6 +44,10 @@ namespace BLL
             return productDAL.GenerateProductId();
         }
 
+        public bool AddBarcode(string product_id, string barcode)
+        {
+            return productDAL.AddBarcode(product_id, barcode);
+        }
         public bool AddImages(image image)
         {
             return productDAL.AddImages(image);

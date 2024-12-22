@@ -8,6 +8,7 @@ create table products
 (
 	product_id varchar(10) not null,
 	category_id varchar(10) not null,
+	barcode varchar(255),
 	product_name nvarchar(255) not null unique,
 	description nvarchar(max) default null,
 	purchase_price float default 0,
@@ -1059,9 +1060,10 @@ CREATE TABLE product_interactions (
 );
 
 INSERT INTO product_interactions(user_id, product_id, view_count, add_to_cart_count, purchase_count)
-VALUES ('USER001', 'PRO001', 10, 2, 1),
-       ('USER001', 'PRO002', 5, 1, 0),
-       ('USER001', 'PRO001', 15, 3, 2);
+VALUES	('khachvanglai', 'PRO004', 100, 2, 1),
+		('USER001', 'PRO001', 10, 2, 1),
+		('USER001', 'PRO002', 5, 1, 0),
+		('USER001', 'PRO001', 15, 3, 2);
 
 select * from product_interactions
-select * from users
+select * from products
