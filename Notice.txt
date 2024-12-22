@@ -1,0 +1,6 @@
+lưu ý khi huấn luyện mô hình và chạy đồ án:
+1. Mở Properties của dự án.
+2. Trong tab Build, đặt Platform target thành x64 hoặc x86 tùy theo hệ điều hành.
+3. Tránh dùng AnyCPU trong trường hợp này.
+4. Rebuild lại project.
+Vì khi set Platform target là AnyCPU sẽ ko tìm thấy file MatrixFactorizationNative.dll của gói Microsoft.ML.Mkl.Redist

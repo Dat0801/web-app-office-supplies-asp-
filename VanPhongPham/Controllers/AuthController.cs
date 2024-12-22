@@ -65,8 +65,8 @@ namespace VanPhongPham.Controllers
                     db.cart_sections.InsertOnSubmit(cart);
                     db.SubmitChanges();
                 }
-
-                return Json(new { success = true, token = token });
+                Session["userId"] = uid;
+                return Json(new { success = true, token = token, userId = uid });
             }
             catch (FirebaseAuthException authEx)
             {

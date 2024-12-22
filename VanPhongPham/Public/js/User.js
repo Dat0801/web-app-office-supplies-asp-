@@ -137,6 +137,18 @@ function logout() {
 
     displayUserName();
 
+    // Gửi yêu cầu AJAX tới server để xóa session server-side
+    $.ajax({
+        url: '/Home/Logout',  // URL của controller để xử lý logout và clear session
+        method: 'GET',         // Hoặc 'POST', tùy vào cấu hình của bạn
+        success: function (response) {
+            // Sau khi xóa session server-side, chuyển hướng người dùng về trang chủ
+            window.location.replace('/Home/Index');
+        },
+        error: function (xhr, status, error) {
+            console.error("Error during logout:", error);
+        }
+    });
     // Kiểm tra xem đã chuyển hướng hay chưa
     if (!sessionStorage.getItem('redirected')) {
         sessionStorage.setItem('redirected', 'true'); // Đánh dấu đã chuyển hướng

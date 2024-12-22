@@ -9,7 +9,7 @@
       },
       {
         "Name": "GUI\\GUI.csproj",
-        "Action": "StartWithoutDebugging"
+        "Action": "Start"
       }
     ]
   }
