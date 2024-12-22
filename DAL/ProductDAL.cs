@@ -18,7 +18,10 @@ namespace DAL
         {
             return _context.products.Where(p => p.status == true && p.category.status == true).ToList();
         }
-
+        public product GetProductByBarcode(string barcode)
+        {
+            return _context.products.FirstOrDefault(p => p.status == true && p.barcode == barcode);
+        }
         public product GetProduct(string product_id)
         {
             return _context.products.FirstOrDefault(p => p.status == true && p.product_id == product_id);
@@ -51,7 +54,21 @@ namespace DAL
             product_id += num;
             return product_id;
         }
-
+        public bool AddBarcode(string product_id, string barcode)
+        {
+            try
+            {
+                product product = _context.products.FirstOrDefault(p => p.product_id == product_id);
+                product.barcode = barcode;
+                _context.SubmitChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
         public bool AddImages(image image)
         {
             try
