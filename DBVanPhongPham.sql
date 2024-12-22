@@ -446,7 +446,6 @@ BEGIN
 END;
 GO
 
-
 -- Trigger tính toán giá khuyến mãi sản phẩm dựa bảng khuyến mãi.
 CREATE TRIGGER trg_UpdatePromotionPrice
 ON product_promotions
@@ -463,18 +462,25 @@ BEGIN
 END;
 GO
 
--- Trigger cập nhật số lượng sản phẩm tồn kho sau khi sản phẩm được bán.
-CREATE TRIGGER trg_UpdateProductStock
-ON order_details
-AFTER INSERT
+-- Trigger cập nhật số lượng sản phẩm tồn kho sau khi sản phẩm được bán khi cap nhật trạng thái "Chờ giao hang".
+CREATE TRIGGER trg_UpdateProductStock_OnOrderStatus
+ON orders
+AFTER UPDATE
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    UPDATE p
-    SET p.stock_quantity = p.stock_quantity - inserted.quantity
-    FROM products p
-    INNER JOIN inserted ON p.product_id = inserted.product_id;
+    -- Chỉ thực hiện khi order_status_id được cập nhật thành 2
+    IF UPDATE(order_status_id)
+    BEGIN
+        -- Lấy danh sách các sản phẩm từ order_details khi order_status_id = 2
+        UPDATE p
+        SET p.stock_quantity = p.stock_quantity - od.quantity
+        FROM products p
+        INNER JOIN order_details od ON p.product_id = od.product_id
+        INNER JOIN inserted i ON i.order_id = od.order_id
+        WHERE i.order_status_id = 2;
+    END
 END;
 GO
 

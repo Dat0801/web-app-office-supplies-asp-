@@ -4,3 +4,5 @@ lưu ý khi huấn luyện mô hình và chạy đồ án:
 3. Tránh dùng AnyCPU trong trường hợp này.
 4. Rebuild lại project.
 Vì khi set Platform target là AnyCPU sẽ ko tìm thấy file MatrixFactorizationNative.dll của gói Microsoft.ML.Mkl.Redist
+
+-- Lưu ý: chạy source với phiên bản 2022 mới áp dụng được AI
