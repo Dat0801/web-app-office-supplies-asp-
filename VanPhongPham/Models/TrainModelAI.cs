@@ -18,7 +18,7 @@ namespace VanPhongPham.Models
         {
             _mlContext = new MLContext();
         }
-        public void TrainModel(List<(string UserId, string ProductId, int? ViewCount, int? AddToCartCount, int? PurchaseCount)> rawData)
+        public void TrainModel(List<(string UserId, string ProductId, int? ViewCount, int? AddToCartCount, int? PurchaseCount)> rawData, bool appendData = false)
         {
             lock (_lock)
             {
@@ -43,38 +43,55 @@ namespace VanPhongPham.Models
                     Label = (float)(x.ViewCount * viewScore + x.AddToCartCount * addToCartScore + x.PurchaseCount * purchaseScore)
                 }).ToList();
 
-                //var dataView = _mlContext.Data.LoadFromEnumerable(trainingData);
+                // Nếu muốn thêm dữ liệu, kết hợp dữ liệu cũ với dữ liệu mới
+                if (appendData && _model != null)
+                {
+                    var currentModelPredictionEngine = _mlContext.Model.CreatePredictionEngine<PurchaseData, ProductPrediction>(_model);
+                    var currentData = _mlContext.Data.LoadFromEnumerable(trainingData); // load dữ liệu mới để huấn luyện thêm
+                    var newModel = _mlContext.Recommendation().Trainers.MatrixFactorization(
+                            labelColumnName: "Label",
+                            matrixColumnIndexColumnName: "UserIdKey",
+                            matrixRowIndexColumnName: "ProductIdKey").Fit(currentData);
+                    _model = newModel;
+                }
+                else
+                {
+                    // Huấn luyện lại mô hình nếu không phải thêm dữ liệu
+                    var pipeline = _mlContext.Transforms.Conversion.MapValueToKey(
+                                    inputColumnName: "UserId", outputColumnName: "UserIdKey")
+                                .Append(_mlContext.Transforms.Conversion.MapValueToKey(
+                                    inputColumnName: "ProductId", outputColumnName: "ProductIdKey"))
+                                .Append(_mlContext.Recommendation().Trainers.MatrixFactorization(
+                                    labelColumnName: "Label",
+                                    matrixColumnIndexColumnName: "UserIdKey",
+                                    matrixRowIndexColumnName: "ProductIdKey"));
 
-                // Huấn luyện mô hình
-                var pipeline = _mlContext.Transforms.Conversion.MapValueToKey(
-                        inputColumnName: "UserId", outputColumnName: "UserIdKey")
-                    .Append(_mlContext.Transforms.Conversion.MapValueToKey(
-                        inputColumnName: "ProductId", outputColumnName: "ProductIdKey"))
-                    .Append(_mlContext.Recommendation().Trainers.MatrixFactorization(
-                        labelColumnName: "Label",
-                        matrixColumnIndexColumnName: "UserIdKey",
-                        matrixRowIndexColumnName: "ProductIdKey"));
-                var dataView = _mlContext.Data.LoadFromEnumerable(trainingData);
-
-                _model = pipeline.Fit(dataView);
+                    var dataView = _mlContext.Data.LoadFromEnumerable(trainingData);
+                    _model = pipeline.Fit(dataView);
+                }
 
                 // Lưu mô hình
-                _mlContext.Model.Save(_model, dataView.Schema, "D:\\model.zip");
+                _mlContext.Model.Save(_model, null, "D:\\model.zip");
             }
         }
+
         public void TrainModelIfNotExists(List<(string UserId, string ProductId, int? ViewCount, int? AddToCartCount, int? PurchaseCount)> rawData)
         {
             var modelPath = "D:\\model.zip";
 
-            // Nếu mô hình đã tồn tại, không cần huấn luyện lại
+            // Nếu mô hình đã tồn tại, sẽ thêm dữ liệu mới vào mô hình
             if (System.IO.File.Exists(modelPath))
             {
-                Console.WriteLine("Model already exists. Skipping training.");
-                return;
+                Console.WriteLine("Model already exists. Appending data...");
+                TrainModel(rawData, appendData: true);
             }
-
-            TrainModel(rawData);
+            else
+            {
+                Console.WriteLine("Model does not exist. Training a new model...");
+                TrainModel(rawData);
+            }
         }
+
 
         public void LoadModel()
         {

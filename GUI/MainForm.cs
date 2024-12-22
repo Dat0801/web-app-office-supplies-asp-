@@ -23,7 +23,7 @@ namespace GUI
             this.IsMdiContainer = true;
             this.FormClosed += MainForm_FormClosed;
             this.DanhSáchNhàCungCấpToolStripMenuItem.Click += DanhSáchNhàCungCấpToolStripMenuItem_Click;
-            this.QuảnLýBánHàngToolStripMenuItem.Click += QuảnLýBánHàngToolStripMenuItem_Click;
+            this.QuảnLýBánHàngToolStripMenuItem.Click += QuảnLýBánHàngToolStripMenuItem_Click;            
         }
 
         private void QuảnLýBánHàngToolStripMenuItem_Click(object sender, EventArgs e)
@@ -95,6 +95,25 @@ namespace GUI
             lb_Name.Location = new Point(this.ClientSize.Width - lb_Name.Width - 50, 0);
             lb_Role.Text = Role;
             lb_Name.Text = TenDangNhap;
+        }
+
+        private void tạoMãVạchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Program.formTaoMaVach == null || Program.formTaoMaVach.IsDisposed)
+            {
+                Program.formTaoMaVach = new FormTaoMaVach
+                {
+                    MdiParent = this,
+                    WindowState = FormWindowState.Maximized,
+                    Width = this.ClientSize.Width + 20,
+                    Height = this.ClientSize.Height + 40
+                };
+                Program.formTaoMaVach.Show();
+            }
+            else
+            {
+                Program.formTaoMaVach.BringToFront();
+            }
         }
     }
 }
